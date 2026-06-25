@@ -3,7 +3,7 @@ import { Search, User } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@components/ui/Card";
 import { Button } from "@components/ui/Button";
 import { StatCard, QuickAccessCard, HistorialItem } from "@components/inicio";
-import { mockClientes, mockMascotas, mockCitas, mockClinicas, mockTipoCitas } from "@appTypes/database";
+import { CLIENTES, MASCOTAS_MOCK, CITAS_MOCK, CLINICAS, TIPOS_CITA } from "@appTypes/database";
 import MascotasIcon from "@assets/MASCOTAS.svg";
 import CitasIcon from "@assets/CITAS.svg";
 import ClinicasIcon from "@assets/CLINICAS.svg";
@@ -22,44 +22,44 @@ type TipoCita = {
 const stats = [
   {
     title: "Clientes",
-    value: mockClientes.length,
+    value: CLIENTES.length,
     icon: <img src={DashboardIcon} alt="Clientes" className="h-10 w-10" />,
     statusLabel: "Registrados",
     statusColor: "green" as const,
-    progress: Math.round((mockClientes.length / 10) * 100),
+    progress: Math.round((CLIENTES.length / 10) * 100),
     backgroundClass: "bg-[#ED6E5C]",
   },
   {
     title: "Mascotas",
-    value: mockMascotas.length,
+    value: MASCOTAS_MOCK.length,
     icon: <img src={MascotasIcon} alt="Mascotas" className="h-10 w-10" />,
     statusLabel: "Registradas",
     statusColor: "green" as const,
-    progress: Math.round((mockMascotas.length / 10) * 100),
+    progress: Math.round((MASCOTAS_MOCK.length / 10) * 100),
     backgroundClass: "bg-[#59b8ae]",
   },
   {
     title: "Citas\nagendadas",
-    value: mockCitas.length,
+    value: CITAS_MOCK.length,
     icon: <img src={CitasIcon} alt="Citas" className="h-10 w-10" />,
     statusLabel: "Proceso",
     statusColor: "green" as const,
-    progress: Math.round((mockCitas.length / 10) * 100),
+    progress: Math.round((CITAS_MOCK.length / 10) * 100),
     backgroundClass: "bg-[#4fb9d0]",
   },
   {
     title: "Clínicas",
-    value: mockClinicas.length,
+    value: CLINICAS.length,
     icon: <img src={ClinicasIcon} alt="Clínicas" className="h-10 w-10" />,
     statusLabel: "Disponibles",
     statusColor: "green" as const,
-    progress: Math.round((mockClinicas.length / 10) * 100),
+    progress: Math.round((CLINICAS.length / 10) * 100),
     backgroundClass: "bg-[#EBB771]",
   },
 ];
 
-const historial = mockCitas.map((cita: CitaHistorial) => {
-  const tipo = mockTipoCitas.find((t: TipoCita) => t.id === cita.tipocita);
+const historial = CITAS_MOCK.map((cita: CitaHistorial) => {
+  const tipo = TIPOS_CITA.find((t: TipoCita) => t.id === cita.tipocita);
   const date = new Date(cita.fecha);
   return {
     titulo: tipo?.nombre ?? "Consulta",
