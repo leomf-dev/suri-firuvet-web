@@ -105,72 +105,72 @@ export const MASCOTAS_MOCK: Mascota[] = [
     nombmas: 'Firulais', 
     tipomas: 1, 
     idcliente: 1,
-    tipoMascota: TIPOS_MASCOTA.find(t => t.id === 1),
-    cliente: CLIENTES.find(c => c.id === 1)
+    tipoMascota: TIPOS_MASCOTA.find(t => t.id === 1)!,
+    cliente: CLIENTES.find(c => c.id === 1)!
   },
   { 
     id: 2, 
     nombmas: 'Michi', 
     tipomas: 2, 
     idcliente: 1,
-    tipoMascota: TIPOS_MASCOTA.find(t => t.id === 2),
-    cliente: CLIENTES.find(c => c.id === 1)
+    tipoMascota: TIPOS_MASCOTA.find(t => t.id === 2)!,
+    cliente: CLIENTES.find(c => c.id === 1)!
   },
   { 
     id: 3, 
     nombmas: 'Luna', 
     tipomas: 1, 
     idcliente: 2,
-    tipoMascota: TIPOS_MASCOTA.find(t => t.id === 1),
-    cliente: CLIENTES.find(c => c.id === 2)
+    tipoMascota: TIPOS_MASCOTA.find(t => t.id === 1)!,
+    cliente: CLIENTES.find(c => c.id === 2)!
   },
   { 
     id: 4, 
     nombmas: 'Simba', 
     tipomas: 2, 
     idcliente: 2,
-    tipoMascota: TIPOS_MASCOTA.find(t => t.id === 2),
-    cliente: CLIENTES.find(c => c.id === 2)
+    tipoMascota: TIPOS_MASCOTA.find(t => t.id === 2)!,
+    cliente: CLIENTES.find(c => c.id === 2)!
   },
   { 
     id: 5, 
     nombmas: 'Copo', 
     tipomas: 3, 
     idcliente: 2,
-    tipoMascota: TIPOS_MASCOTA.find(t => t.id === 3),
-    cliente: CLIENTES.find(c => c.id === 2)
+    tipoMascota: TIPOS_MASCOTA.find(t => t.id === 3)!,
+    cliente: CLIENTES.find(c => c.id === 2)!
   },
   { 
     id: 6, 
     nombmas: 'Rocky', 
     tipomas: 1, 
     idcliente: 3,
-    tipoMascota: TIPOS_MASCOTA.find(t => t.id === 1),
-    cliente: CLIENTES.find(c => c.id === 3)
+    tipoMascota: TIPOS_MASCOTA.find(t => t.id === 1)!,
+    cliente: CLIENTES.find(c => c.id === 3)!
   },
   { 
     id: 7, 
     nombmas: 'Pelusa', 
     tipomas: 4, 
     idcliente: 1,
-    tipoMascota: TIPOS_MASCOTA.find(t => t.id === 4),
-    cliente: CLIENTES.find(c => c.id === 1)
+    tipoMascota: TIPOS_MASCOTA.find(t => t.id === 4)!,
+    cliente: CLIENTES.find(c => c.id === 1)!
   },
   { 
     id: 8, 
     nombmas: 'Nube', 
     tipomas: 5, 
     idcliente: 2,
-    tipoMascota: TIPOS_MASCOTA.find(t => t.id === 5),
-    cliente: CLIENTES.find(c => c.id === 2)
+    tipoMascota: TIPOS_MASCOTA.find(t => t.id === 5)!,
+    cliente: CLIENTES.find(c => c.id === 2)!
   },
   { 
     id: 9, 
     nombmas: 'Thor', 
     tipomas: 1, 
     idcliente: 3,
-    tipoMascota: TIPOS_MASCOTA.find(t => t.id === 1),
-    cliente: CLIENTES.find(c => c.id === 3)
+    tipoMascota: TIPOS_MASCOTA.find(t => t.id === 1)!,
+    cliente: CLIENTES.find(c => c.id === 3)!
   }
 ];
 
@@ -183,10 +183,10 @@ export const CITAS_MOCK: Cita[] = [
     idmascota: 1,
     idcliente: 1,
     idclinica: 1,
-    tipoCita: TIPOS_CITA.find(t => t.id === 1),
-    mascota: MASCOTAS_MOCK.find(m => m.id === 1),
-    cliente: CLIENTES.find(c => c.id === 1),
-    clinica: CLINICAS.find(c => c.id === 1)
+    tipoCita: TIPOS_CITA.find(t => t.id === 1)!,
+    mascota: MASCOTAS_MOCK.find(m => m.id === 1)!,
+    cliente: CLIENTES.find(c => c.id === 1)!,
+    clinica: CLINICAS.find(c => c.id === 1)!
   },
   {
     idcita: 2,
@@ -196,10 +196,10 @@ export const CITAS_MOCK: Cita[] = [
     idmascota: 2,
     idcliente: 1,
     idclinica: 3,
-    tipoCita: TIPOS_CITA.find(t => t.id === 2),
-    mascota: MASCOTAS_MOCK.find(m => m.id === 2),
-    cliente: CLIENTES.find(c => c.id === 1),
-    clinica: CLINICAS.find(c => c.id === 3)
+    tipoCita: TIPOS_CITA.find(t => t.id === 2)!,
+    mascota: MASCOTAS_MOCK.find(m => m.id === 2)!,
+    cliente: CLIENTES.find(c => c.id === 1)!,
+    clinica: CLINICAS.find(c => c.id === 3)!
   },
   {
     idcita: 3,
@@ -209,10 +209,10 @@ export const CITAS_MOCK: Cita[] = [
     idmascota: 3,
     idcliente: 2,
     idclinica: 2,
-    tipoCita: TIPOS_CITA.find(t => t.id === 4),
-    mascota: MASCOTAS_MOCK.find(m => m.id === 3),
-    cliente: CLIENTES.find(c => c.id === 2),
-    clinica: CLINICAS.find(c => c.id === 2)
+    tipoCita: TIPOS_CITA.find(t => t.id === 4)!,
+    mascota: MASCOTAS_MOCK.find(m => m.id === 3)!,
+    cliente: CLIENTES.find(c => c.id === 2)!,
+    clinica: CLINICAS.find(c => c.id === 2)!
   },
   {
     idcita: 4,
@@ -222,10 +222,10 @@ export const CITAS_MOCK: Cita[] = [
     idmascota: 4,
     idcliente: 2,
     idclinica: 5,
-    tipoCita: TIPOS_CITA.find(t => t.id === 3),
-    mascota: MASCOTAS_MOCK.find(m => m.id === 4),
-    cliente: CLIENTES.find(c => c.id === 2),
-    clinica: CLINICAS.find(c => c.id === 5)
+    tipoCita: TIPOS_CITA.find(t => t.id === 3)!,
+    mascota: MASCOTAS_MOCK.find(m => m.id === 4)!,
+    cliente: CLIENTES.find(c => c.id === 2)!,
+    clinica: CLINICAS.find(c => c.id === 5)!
   },
   {
     idcita: 5,
@@ -235,10 +235,10 @@ export const CITAS_MOCK: Cita[] = [
     idmascota: 5,
     idcliente: 2,
     idclinica: 2,
-    tipoCita: TIPOS_CITA.find(t => t.id === 2),
-    mascota: MASCOTAS_MOCK.find(m => m.id === 5),
-    cliente: CLIENTES.find(c => c.id === 2),
-    clinica: CLINICAS.find(c => c.id === 2)
+    tipoCita: TIPOS_CITA.find(t => t.id === 2)!,
+    mascota: MASCOTAS_MOCK.find(m => m.id === 5)!,
+    cliente: CLIENTES.find(c => c.id === 2)!,
+    clinica: CLINICAS.find(c => c.id === 2)!
   },
   {
     idcita: 6,
@@ -248,9 +248,9 @@ export const CITAS_MOCK: Cita[] = [
     idmascota: 6,
     idcliente: 3,
     idclinica: 4,
-    tipoCita: TIPOS_CITA.find(t => t.id === 1),
-    mascota: MASCOTAS_MOCK.find(m => m.id === 6),
-    cliente: CLIENTES.find(c => c.id === 3),
-    clinica: CLINICAS.find(c => c.id === 4)
+    tipoCita: TIPOS_CITA.find(t => t.id === 1)!,
+    mascota: MASCOTAS_MOCK.find(m => m.id === 6)!,
+    cliente: CLIENTES.find(c => c.id === 3)!,
+    clinica: CLINICAS.find(c => c.id === 4)!
   }
 ];
