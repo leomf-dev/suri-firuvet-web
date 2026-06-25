@@ -1,17 +1,7 @@
 import type { RouteObject } from "react-router-dom";
-import { Navigate, Outlet } from "react-router-dom";
-import { AuthPage, InicioPage } from "@pages/index";
+import { Navigate } from "react-router-dom";
+import { AuthPage, ClinicasPage, CitasPage, InicioPage, MascotasPage } from "@pages/index";
 import { Layout } from "@components/layout";
-
-// Placeholder temporal hasta que crees los componentes reales
-function Placeholder({ name }: { name: string }) {
-    return (
-        <div className="p-8 text-center text-gray-500">
-            <p className="text-lg font-medium">{name}</p>
-            <p className="text-sm">Componente pendiente</p>
-        </div>
-    );
-}
 
 export const routes: RouteObject[] = [
     // ─── REDIRECT: "/" siempre va a /login ─────────────────────
@@ -36,15 +26,15 @@ export const routes: RouteObject[] = [
             },
             {
                 path: "/citas",
-                element: <Placeholder name="CitasPage" />,
+                element: <CitasPage />,
             },
             {
                 path: "/mascotas",
-                element: <Placeholder name="MascotasPage" />,
+                element: <MascotasPage />,
             },
             {
                 path: "/clinicas",
-                element: <Placeholder name="ClinicasPage" />,
+                element: <ClinicasPage />,
             },
         ],
     },

@@ -12,14 +12,14 @@ function QuickAccessCard({ label, icon, onClick, className }: QuickAccessCardPro
     <button
       onClick={onClick}
       className={cn(
-        "flex flex-col items-center gap-2 p-4 rounded-xl bg-teal-50 border border-teal-100 hover:bg-teal-100 transition-colors cursor-pointer min-w-[120px]",
+        "flex flex-col items-center justify-center gap-3 rounded-[1.25rem] border border-slate-200 bg-white p-6 text-center shadow-sm transition hover:-translate-y-0.5 hover:shadow-md",
         className
       )}
     >
-      <div className="w-14 h-14 rounded-xl bg-teal-600 flex items-center justify-center text-white">
+      <div className="flex h-20 w-20 items-center justify-center rounded-2xl bg-[#e8f5f3]">
         {icon}
       </div>
-      <span className="text-xs font-bold text-gray-700 text-center uppercase">{label}</span>
+      <span className="text-[11px] font-bold uppercase tracking-[0.12em] text-slate-600">{label}</span>
     </button>
   );
 }
