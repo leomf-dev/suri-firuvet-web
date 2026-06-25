@@ -3,53 +3,63 @@ import { Search, User } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@components/ui/Card";
 import { Button } from "@components/ui/Button";
 import { StatCard, QuickAccessCard, HistorialItem } from "@components/inicio";
-import { clientes, mascotas, citas, clinicas, tipoCitas } from "@services";
+import { mockClientes, mockMascotas, mockCitas, mockClinicas, mockTipoCitas } from "@appTypes/database";
 import MascotasIcon from "@assets/MASCOTAS.svg";
 import CitasIcon from "@assets/CITAS.svg";
 import ClinicasIcon from "@assets/CLINICAS.svg";
 import DashboardIcon from "@assets/DASHBOARD.svg";
 
+type CitaHistorial = {
+  tipocita: number;
+  fecha: string;
+};
+
+type TipoCita = {
+  id: number;
+  nombre: string;
+};
+
 const stats = [
   {
     title: "Clientes",
-    value: clientes.length,
+    value: mockClientes.length,
     icon: <img src={DashboardIcon} alt="Clientes" className="h-10 w-10" />,
     statusLabel: "Registrados",
     statusColor: "green" as const,
-    progress: Math.round((clientes.length / 10) * 100),
+    progress: Math.round((mockClientes.length / 10) * 100),
     backgroundClass: "bg-[#ED6E5C]",
   },
   {
     title: "Mascotas",
-    value: mascotas.length,
+    value: mockMascotas.length,
     icon: <img src={MascotasIcon} alt="Mascotas" className="h-10 w-10" />,
     statusLabel: "Registradas",
     statusColor: "green" as const,
-    progress: Math.round((mascotas.length / 10) * 100),
+    progress: Math.round((mockMascotas.length / 10) * 100),
     backgroundClass: "bg-[#59b8ae]",
   },
   {
     title: "Citas\nagendadas",
-    value: citas.length,
+    value: mockCitas.length,
     icon: <img src={CitasIcon} alt="Citas" className="h-10 w-10" />,
     statusLabel: "Proceso",
     statusColor: "green" as const,
-    progress: Math.round((citas.length / 10) * 100),
+    progress: Math.round((mockCitas.length / 10) * 100),
     backgroundClass: "bg-[#4fb9d0]",
   },
   {
     title: "Clínicas",
-    value: clinicas.length,
+    value: mockClinicas.length,
     icon: <img src={ClinicasIcon} alt="Clínicas" className="h-10 w-10" />,
     statusLabel: "Disponibles",
     statusColor: "green" as const,
-    progress: Math.round((clinicas.length / 10) * 100),
+    progress: Math.round((mockClinicas.length / 10) * 100),
     backgroundClass: "bg-[#EBB771]",
   },
 ];
 
-const historial = citas.map((cita) => {
-  const tipo = tipoCitas.find((t) => t.id === cita.tipocita);
+const historial = mockCitas.map((cita: CitaHistorial) => {
+  const tipo = mockTipoCitas.find((t: TipoCita) => t.id === cita.tipocita);
   const date = new Date(cita.fecha);
   return {
     titulo: tipo?.nombre ?? "Consulta",
@@ -143,7 +153,7 @@ function InicioPage() {
         </CardHeader>
         <CardContent>
           <div className="space-y-3">
-            {historial.map((item) => (
+            {historial.map((item: { titulo: string; hora: string; fecha: string }) => (
               <HistorialItem
                 key={item.titulo + item.fecha}
                 titulo={item.titulo}
