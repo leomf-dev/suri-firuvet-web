@@ -1,324 +1,101 @@
 import { useState, useEffect } from "react";
-import { Button } from "@components/ui/Button";
-import { Input } from "@components/ui/Input";
-import { Label } from "@components/ui/Label";
+import { Button, Input, Label } from "@components/ui";
 import { Save, X } from "lucide-react";
-import { TIPOS_MASCOTA, type Mascota } from "@appTypes/database";
+import type { Mascota, TipoMascota, MascotaFormData } from "@appTypes";
 
 interface EditarMascotaFormProps {
-  mascota: MascotaParaEditar;
-  onSubmit: (mascota: MascotaEditFormData) => void;
+  mascota: Mascota;
+  tiposMascota: TipoMascota[];
+  onSubmit: (data: MascotaFormData) => void;
   onCancel: () => void;
   loading?: boolean;
 }
 
-interface MascotaParaEditar extends Mascota {
-  raza?: string;
-  edad?: string;
-  peso?: string;
-  color?: string;
-  genero?: string;
-  fechaNacimiento?: string;
-}
-
-interface MascotaEditFormData {
-  nombmas: string;
-  tipomas: number;
-  raza: string;
-  edad: string;
-  peso: string;
-  color: string;
-  genero: string;
-  fechaNacimiento: string;
-  apodos: string;
-  alergias: string;
-}
-
-const generos = [
-  { value: "M", label: "Macho" },
-  { value: "H", label: "Hembra" }
-];
-
-function EditarMascotaForm({ mascota, onSubmit, onCancel, loading = false }: EditarMascotaFormProps) {
-  const [formData, setFormData] = useState<MascotaEditFormData>({
-    nombmas: "",
-    tipomas: 0,
-    raza: "",
-    edad: "",
-    peso: "",
-    color: "",
-    genero: "",
-    fechaNacimiento: "",
-    apodos: "",
-    alergias: ""
+function EditarMascotaForm({ mascota, tiposMascota, onSubmit, onCancel, loading = false }: EditarMascotaFormProps) {
+  const [form, setForm] = useState<MascotaFormData>({
+    nombMas: mascota.nombMas,
+    idTipoMascota: mascota.idTipoMascota,
+    idCliente: mascota.idCliente,
+    apodos: mascota.apodos ?? "",
+    alergias: mascota.alergias ?? "",
   });
+  const [errors, setErrors] = useState<Record<string, string>>({});
 
-  const [errors, setErrors] = useState<{[key: string]: string}>({});
-
-  // Poblar formulario con datos de la mascota existente
   useEffect(() => {
-    if (mascota) {
-      setFormData({
-        nombmas: mascota.nombmas || "",
-        tipomas: mascota.tipomas || 0,
-        raza: mascota.raza || "",
-        edad: mascota.edad || "",
-        peso: mascota.peso || "",
-        color: mascota.color || "",
-        genero: mascota.genero || "",
-        fechaNacimiento: mascota.fechaNacimiento || "",
-        apodos: mascota.apodos || "",
-        alergias: mascota.alergias || ""
-      });
-    }
+    setForm({
+      nombMas: mascota.nombMas,
+      idTipoMascota: mascota.idTipoMascota,
+      idCliente: mascota.idCliente,
+      apodos: mascota.apodos ?? "",
+      alergias: mascota.alergias ?? "",
+    });
   }, [mascota]);
 
-  const handleStringChange = (field: keyof MascotaEditFormData, value: string) => {
-    if (field === 'tipomas') return; // Este campo es numérico
-    
-    setFormData(prev => ({ ...prev, [field]: value }));
-    
-    // Limpiar error cuando el usuario empiece a escribir
-    if (errors[field]) {
-      setErrors(prev => ({ ...prev, [field]: "" }));
-    }
-  };
+  const set = (field: keyof MascotaFormData, value: string | number) =>
+    setForm(prev => ({ ...prev, [field]: value }));
 
-  const handleNumberChange = (field: 'tipomas', value: string) => {
-    const numValue = Number(value);
-    setFormData(prev => ({ ...prev, [field]: numValue }));
-    
-    // Limpiar error cuando el usuario empiece a escribir
-    if (errors[field]) {
-      setErrors(prev => ({ ...prev, [field]: "" }));
-    }
-  };
-
-  const validateForm = (): boolean => {
-    const newErrors: {[key: string]: string} = {};
-
-    if (!formData.nombmas.trim()) newErrors.nombmas = "El nombre es requerido";
-    if (!formData.tipomas || formData.tipomas === 0) newErrors.tipomas = "El tipo es requerido";
-    if (!formData.raza.trim()) newErrors.raza = "La raza es requerida";
-    if (!formData.genero) newErrors.genero = "El género es requerido";
-    
-    if (formData.edad && (isNaN(Number(formData.edad)) || Number(formData.edad) < 0)) {
-      newErrors.edad = "La edad debe ser un número válido";
-    }
-    
-    if (formData.peso && (isNaN(Number(formData.peso)) || Number(formData.peso) <= 0)) {
-      newErrors.peso = "El peso debe ser un número válido";
-    }
-
-    setErrors(newErrors);
-    return Object.keys(newErrors).length === 0;
+  const validate = (): boolean => {
+    const e: Record<string, string> = {};
+    if (!form.nombMas.trim()) e.nombMas = "El nombre es requerido";
+    if (!form.idTipoMascota) e.idTipoMascota = "El tipo es requerido";
+    setErrors(e);
+    return Object.keys(e).length === 0;
   };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    
-    if (validateForm()) {
-      onSubmit(formData);
-    }
+    if (validate()) onSubmit(form);
   };
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-6">
-      {/* Header de edición */}
-      <div className="bg-orange-50 border border-orange-200 rounded-lg p-4">
-        <h3 className="font-bold text-orange-800 mb-2">✏️ Editando Mascota: {mascota.nombmas}</h3>
-        <p className="text-sm text-orange-700">
-          ID: #{mascota.id} - Modifica la información necesaria y guarda los cambios.
-        </p>
-      </div>
-
-      {/* Fila 1: Nombre y Tipo */}
+    <form onSubmit={handleSubmit} className="space-y-4">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div>
-          <Label htmlFor="nombmas">Nombre de la mascota *</Label>
-          <Input
-            id="nombmas"
-            value={formData.nombmas}
-            onChange={(e) => handleStringChange("nombmas", e.target.value)}
-            placeholder="Ej: Max, Luna, Firulais"
-            className={errors.nombmas ? "border-red-500" : ""}
-            maxLength={25}
-          />
-          {errors.nombmas && <p className="text-red-500 text-sm mt-1">{errors.nombmas}</p>}
+          <Label htmlFor="edit-nombMas">Nombre *</Label>
+          <Input id="edit-nombMas" value={form.nombMas} onChange={e => set("nombMas", e.target.value)}
+            className={errors.nombMas ? "border-red-500" : ""} maxLength={25} />
+          {errors.nombMas && <p className="text-red-500 text-xs mt-1">{errors.nombMas}</p>}
         </div>
-
         <div>
-          <Label htmlFor="tipomas">Tipo de mascota *</Label>
-          <select
-            id="tipomas"
-            value={formData.tipomas}
-            onChange={(e) => handleNumberChange("tipomas", e.target.value)}
-            className={`w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-[#079f92] ${
-              errors.tipomas ? "border-red-500" : "border-gray-300"
-            }`}
+          <Label htmlFor="edit-tipo">Tipo *</Label>
+          <select id="edit-tipo" value={form.idTipoMascota}
+            onChange={e => set("idTipoMascota", Number(e.target.value))}
+            className={`w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-[#079f92] ${errors.idTipoMascota ? "border-red-500" : "border-gray-300"}`}
           >
             <option value={0}>Seleccionar tipo</option>
-            {TIPOS_MASCOTA.map(tipo => (
-              <option key={tipo.id} value={tipo.id}>{tipo.nombre}</option>
-            ))}
+            {tiposMascota.map(t => <option key={t.id} value={t.id}>{t.nombre}</option>)}
           </select>
-          {errors.tipomas && <p className="text-red-500 text-sm mt-1">{errors.tipomas}</p>}
+          {errors.idTipoMascota && <p className="text-red-500 text-xs mt-1">{errors.idTipoMascota}</p>}
         </div>
       </div>
 
-      {/* Fila 2: Raza y Género */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <div>
-          <Label htmlFor="raza">Raza *</Label>
-          <Input
-            id="raza"
-            value={formData.raza}
-            onChange={(e) => handleStringChange("raza", e.target.value)}
-            placeholder="Ej: Labrador, Siamés, Mestizo"
-            className={errors.raza ? "border-red-500" : ""}
-          />
-          {errors.raza && <p className="text-red-500 text-sm mt-1">{errors.raza}</p>}
-        </div>
-
-        <div>
-          <Label htmlFor="genero">Género *</Label>
-          <select
-            id="genero"
-            value={formData.genero}
-            onChange={(e) => handleStringChange("genero", e.target.value)}
-            className={`w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-[#079f92] ${
-              errors.genero ? "border-red-500" : "border-gray-300"
-            }`}
-          >
-            <option value="">Seleccionar género</option>
-            {generos.map(genero => (
-              <option key={genero.value} value={genero.value}>{genero.label}</option>
-            ))}
-          </select>
-          {errors.genero && <p className="text-red-500 text-sm mt-1">{errors.genero}</p>}
-        </div>
-      </div>
-
-      {/* Fila 3: Edad, Peso y Color */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        <div>
-          <Label htmlFor="edad">Edad (años)</Label>
-          <Input
-            id="edad"
-            type="number"
-            min="0"
-            step="0.1"
-            value={formData.edad}
-            onChange={(e) => handleStringChange("edad", e.target.value)}
-            placeholder="Ej: 2.5"
-            className={errors.edad ? "border-red-500" : ""}
-          />
-          {errors.edad && <p className="text-red-500 text-sm mt-1">{errors.edad}</p>}
-        </div>
-
-        <div>
-          <Label htmlFor="peso">Peso (kg)</Label>
-          <Input
-            id="peso"
-            type="number"
-            min="0"
-            step="0.1"
-            value={formData.peso}
-            onChange={(e) => handleStringChange("peso", e.target.value)}
-            placeholder="Ej: 15.5"
-            className={errors.peso ? "border-red-500" : ""}
-          />
-          {errors.peso && <p className="text-red-500 text-sm mt-1">{errors.peso}</p>}
-        </div>
-
-        <div>
-          <Label htmlFor="color">Color</Label>
-          <Input
-            id="color"
-            value={formData.color}
-            onChange={(e) => handleStringChange("color", e.target.value)}
-            placeholder="Ej: Marrón, Negro, Blanco"
-          />
-        </div>
-      </div>
-
-      {/* Fecha de nacimiento */}
       <div>
-        <Label htmlFor="fechaNacimiento">Fecha de nacimiento</Label>
-        <Input
-          id="fechaNacimiento"
-          type="date"
-          value={formData.fechaNacimiento}
-          onChange={(e) => handleStringChange("fechaNacimiento", e.target.value)}
-        />
+        <Label htmlFor="edit-apodos">Apodos <span className="text-gray-400 font-normal">(opcional)</span></Label>
+        <Input id="edit-apodos" value={form.apodos ?? ""} onChange={e => set("apodos", e.target.value)} maxLength={100} />
       </div>
 
-      {/* Apodos */}
       <div>
-        <Label htmlFor="apodos">Apodos o nombres cariñosos</Label>
-        <Input
-          id="apodos"
-          value={formData.apodos}
-          onChange={(e) => handleStringChange("apodos", e.target.value)}
-          placeholder="Ej: Peludo, Chiquito, Gordito"
-          maxLength={100}
-        />
-        <p className="text-xs text-gray-500 mt-1">Opcional - Otros nombres por los que conocen a tu mascota</p>
+        <Label htmlFor="edit-alergias">Alergias / condiciones médicas <span className="text-gray-400 font-normal">(opcional)</span></Label>
+        <textarea id="edit-alergias" value={form.alergias ?? ""} onChange={e => set("alergias", e.target.value)}
+          rows={3} maxLength={200}
+          className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-[#079f92] resize-none" />
       </div>
 
-      {/* Alergias */}
-      <div>
-        <Label htmlFor="alergias">Alergias o condiciones médicas</Label>
-        <textarea
-          id="alergias"
-          value={formData.alergias}
-          onChange={(e) => handleStringChange("alergias", e.target.value)}
-          placeholder="Ej: Alérgico al pollo, asma, displasia de cadera..."
-          rows={3}
-          maxLength={200}
-          className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-[#079f92] resize-none"
-        />
-        <p className="text-xs text-gray-500 mt-1">Información médica importante para el veterinario</p>
-      </div>
-
-      {/* Información de la edición */}
-      <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
-        <h3 className="font-bold text-blue-800 mb-2">📋 Información de la edición</h3>
-        <ul className="text-sm text-blue-700 space-y-1">
-          <li>• Los cambios se aplicarán inmediatamente</li>
-          <li>• La información médica actualizada estará disponible para los veterinarios</li>
-          <li>• Puedes editar esta información cuando sea necesario</li>
-        </ul>
-      </div>
-
-      {/* Botones */}
-      <div className="flex flex-col sm:flex-row gap-3 pt-4">
-        <Button
-          type="submit"
-          disabled={loading}
-          className="bg-orange-500 hover:bg-orange-600 text-white px-6 py-3 rounded-lg font-bold flex-1 sm:flex-initial"
-        >
+      <div className="flex flex-col sm:flex-row gap-3 pt-2">
+        <Button type="submit" disabled={loading}
+          className="bg-orange-500 hover:bg-orange-600 text-white px-6 py-3 rounded-lg font-bold flex-1 sm:flex-initial">
           {loading ? (
             <div className="flex items-center gap-2">
               <div className="w-4 h-4 border-2 border-white/20 border-t-white rounded-full animate-spin" />
               Actualizando...
             </div>
           ) : (
-            <div className="flex items-center gap-2">
-              <Save className="size-4" />
-              Actualizar Mascota
-            </div>
+            <div className="flex items-center gap-2"><Save className="size-4" /> Actualizar</div>
           )}
         </Button>
-
-        <Button
-          type="button"
-          onClick={onCancel}
-          disabled={loading}
-          className="bg-gray-500 hover:bg-gray-600 text-white px-6 py-3 rounded-lg font-bold flex-1 sm:flex-initial"
-        >
-          <X className="size-4 mr-2" />
-          Cancelar
+        <Button type="button" onClick={onCancel} disabled={loading}
+          className="bg-gray-500 hover:bg-gray-600 text-white px-6 py-3 rounded-lg font-bold">
+          <X className="size-4 mr-2" /> Cancelar
         </Button>
       </div>
     </form>
@@ -326,4 +103,3 @@ function EditarMascotaForm({ mascota, onSubmit, onCancel, loading = false }: Edi
 }
 
 export default EditarMascotaForm;
-export type { MascotaEditFormData, MascotaParaEditar };

@@ -9,6 +9,20 @@ export default defineConfig({
     react(),
     tailwindcss()
   ],
+  server: {
+    proxy: {
+      '/api': {
+        target: 'https://suri-firuvet-ios-damii-api.onrender.com',
+        changeOrigin: true,
+        secure: true,
+      },
+      '/soap': {
+        target: 'https://suri-firuvet-api-soap.onrender.com',
+        changeOrigin: true,
+        secure: true,
+      },
+    },
+  },
   resolve: {
     alias: {
       '@components': path.resolve(__dirname, 'src/components'),
@@ -23,6 +37,7 @@ export default defineConfig({
       '@appTypes': path.resolve(__dirname, 'src/@types'),
       '@assets': path.resolve(__dirname, 'src/assets'),
       '@auth': path.resolve(__dirname, 'src/auth'),
+      '@config': path.resolve(__dirname, 'src/config'),
 
     }
   }

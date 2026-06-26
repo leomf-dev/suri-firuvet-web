@@ -1,183 +1,12 @@
-import { useEffect, useState } from "react";
-import { Calendar, Eye, Plus, Clock, User, PawPrint } from "lucide-react";
-import { Button } from "@components/ui/Button";
-import Modal from "@components/ui/Modal";
-import { api } from "@api/http";
-import { CitaDetalles, type CitaCompleta, RegistrarCitaForm, type CitaFormData, EditarCitaForm, type CitaEditFormData, type CitaParaEditar } from "@components/citas";
+import { useEffect, useState, useCallback } from "react";
+import { Calendar, Eye, Clock, Trash2 } from "lucide-react";
+import { Button, Modal } from "@components/ui";
+import { LoadingOverlay, EmptyState, ErrorMessage } from "@components/common";
+import { useAuth } from "@auth/index";
+import { citaService, mascotaService, catalogoService } from "@services/index";
+import type { Cita, Mascota, TipoCita, Clinica, CitaFormData } from "@appTypes";
 import citasIcon from "../assets/CITAS.svg";
 import registrarCitaIcon from "../assets/REGISTRAR CITAS.png";
-
-type Cita = {
-  id?: number;
-  fecha: string;
-  hora: string;
-  motivo: string;
-  observaciones?: string;
-  dueño: {
-    nombre: string;
-    telefono?: string;
-    email?: string;
-  };
-  mascota: {
-    nombre: string;
-    tipo: string;
-    raza?: string;
-    edad?: string;
-  };
-  veterinario?: {
-    nombre: string;
-  };
-  clinica?: {
-    nombre: string;
-    direccion?: string;
-  };
-};
-
-const citasMock: Cita[] = [
-  {
-    id: 1,
-    fecha: "2024-01-15",
-    hora: "09:00 AM",
-    motivo: "Consulta general",
-    observaciones: "Primera consulta del año. Revisar vacunas.",
-    dueño: {
-      nombre: "María García",
-      telefono: "+51 987 654 321",
-      email: "maria.garcia@email.com"
-    },
-    mascota: {
-      nombre: "Max",
-      tipo: "Perro",
-      raza: "Golden Retriever", 
-      edad: "3 años"
-    },
-    veterinario: {
-      nombre: "Dr. Carlos Mendoza"
-    },
-    clinica: {
-      nombre: "Clínica Veterinaria San Marcos",
-      direccion: "Av. Javier Prado 123, San Isidro"
-    }
-  },
-  {
-    id: 2,
-    fecha: "2024-01-15",
-    hora: "10:30 AM",
-    motivo: "Vacunación",
-    dueño: {
-      nombre: "Juan Pérez",
-      telefono: "+51 999 888 777"
-    },
-    mascota: {
-      nombre: "Luna",
-      tipo: "Gato",
-      raza: "Persa",
-      edad: "2 años"
-    },
-    veterinario: {
-      nombre: "Dra. Ana Ramos"
-    },
-    clinica: {
-      nombre: "Clínica Veterinaria San Marcos"
-    }
-  },
-  {
-    id: 3,
-    fecha: "2024-01-16",
-    hora: "02:00 PM",
-    motivo: "Control post-operatorio",
-    observaciones: "Evolución favorable después de la cirugía. Sin complicaciones.",
-    dueño: {
-      nombre: "Ana López",
-      telefono: "+51 955 444 333",
-      email: "ana.lopez@email.com"
-    },
-    mascota: {
-      nombre: "Rocky",
-      tipo: "Perro",
-      raza: "Bulldog Francés",
-      edad: "5 años"
-    },
-    veterinario: {
-      nombre: "Dr. Miguel Torres"
-    },
-    clinica: {
-      nombre: "Hospital Veterinario Central",
-      direccion: "Jr. Las Flores 456, Miraflores"
-    }
-  },
-  {
-    id: 4,
-    fecha: "2024-01-17",
-    hora: "11:15 AM",
-    motivo: "Desparasitación",
-    dueño: {
-      nombre: "Carlos Ruiz",
-      telefono: "+51 966 777 888"
-    },
-    mascota: {
-      nombre: "Mía",
-      tipo: "Conejo",
-      raza: "Holandés",
-      edad: "1 año"
-    },
-    veterinario: {
-      nombre: "Dra. Patricia Silva"
-    },
-    clinica: {
-      nombre: "Clínica Veterinaria San Marcos"
-    }
-  },
-  {
-    id: 5,
-    fecha: "2024-01-18",
-    hora: "04:30 PM",
-    motivo: "Emergencia - Accidente",
-    observaciones: "Accidente de tráfico. Requiere atención inmediata.",
-    dueño: {
-      nombre: "Sofía Mendez",
-      telefono: "+51 944 555 666",
-      email: "sofia.mendez@email.com"
-    },
-    mascota: {
-      nombre: "Toby",
-      tipo: "Perro",
-      raza: "Mestizo",
-      edad: "4 años"
-    },
-    veterinario: {
-      nombre: "Dr. Ricardo Vega"
-    },
-    clinica: {
-      nombre: "Hospital Veterinario Central",
-      direccion: "Jr. Las Flores 456, Miraflores"
-    }
-  },
-  {
-    id: 6,
-    fecha: "2024-01-19",
-    hora: "08:45 AM",
-    motivo: "Revisión dental",
-    dueño: {
-      nombre: "Roberto Castro",
-      telefono: "+51 933 222 111"
-    },
-    mascota: {
-      nombre: "Nala",
-      tipo: "Gato",
-      raza: "Siamés",
-      edad: "6 años"
-    },
-    veterinario: {
-      nombre: "Dr. Luis Herrera"
-    },
-    clinica: {
-      nombre: "Clínica Dental Veterinaria"
-    }
-  }
-];
-
-
 
 function CitaIcon() {
   return (
@@ -188,141 +17,80 @@ function CitaIcon() {
 }
 
 function CitasPage() {
-  const [citas, setCitas] = useState<Cita[]>(citasMock);
-  const [modalDetallesOpen, setModalDetallesOpen] = useState(false);
-  const [modalRegistroOpen, setModalRegistroOpen] = useState(false);
-  const [modalEditarOpen, setModalEditarOpen] = useState(false);
-  const [citaSeleccionada, setCitaSeleccionada] = useState<Cita | null>(null);
-  const [citaParaEditar, setCitaParaEditar] = useState<Cita | null>(null);
+  const { idCliente } = useAuth();
+
+  const [citas, setCitas] = useState<Cita[]>([]);
+  const [mascotas, setMascotas] = useState<Mascota[]>([]);
+  const [tiposCita, setTiposCita] = useState<TipoCita[]>([]);
+  const [clinicas, setClinicas] = useState<Clinica[]>([]);
+  const [loadingPage, setLoadingPage] = useState(true);
+  const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
 
-  useEffect(() => {
-    async function cargarCitas() {
-      try {
-        // 🔧 CAMBIA ESTA RUTA por tu endpoint real
-        const data = await api.get<Cita[]>("/citas");
-        setCitas(data);
-      } catch {
-        setCitas(citasMock);
-      }
+  const [modalRegistroOpen, setModalRegistroOpen] = useState(false);
+  const [modalDetallesOpen, setModalDetallesOpen] = useState(false);
+  const [citaSeleccionada, setCitaSeleccionada] = useState<Cita | null>(null);
+
+  const cargarCitas = useCallback(async () => {
+    if (!idCliente) return;
+    const data = await citaService.getByCliente(idCliente);
+    setCitas(data);
+  }, [idCliente]);  useEffect(() => {
+    async function init() {
+      setLoadingPage(true);
+      setError(null);
+      // REST primero — controla el loading state
+      const [citas, mascs] = await Promise.all([
+        citaService.getByCliente(idCliente!).catch(() => [] as Cita[]),
+        mascotaService.getByCliente(idCliente!).catch(() => [] as Mascota[]),
+      ]);
+      setCitas(citas);
+      setMascotas(mascs);
+      setLoadingPage(false);
+
+      // SOAP en segundo plano — no bloquea la UI
+      Promise.all([
+        catalogoService.getTiposCita().catch(() => [] as TipoCita[]),
+        catalogoService.getClinicas().catch(() => [] as Clinica[]),
+      ]).then(([tipos, cls]) => {
+        setTiposCita(tipos.map(t => ({ ...t, id: Number(t.id) })));
+        setClinicas(cls.map(c => ({ ...c, id: Number(c.id) })));
+      });
     }
-
-    cargarCitas();
-  }, []);
-
-  const handleVerDetalles = (cita: Cita) => {
-    setCitaSeleccionada(cita);
-    setModalDetallesOpen(true);
-  };
-
-  const handleEditarCita = (cita: Cita) => {
-    setCitaParaEditar(cita);
-    setModalEditarOpen(true);
-  };
+    if (idCliente) init();
+    else setLoadingPage(false);
+  }, [idCliente]);
 
   const handleRegistrarCita = async (formData: CitaFormData) => {
+    if (!idCliente) return;
     setLoading(true);
+    setError(null);
     try {
-      // 🔧 CAMBIA ESTA RUTA por tu endpoint real
-      const nuevaCita = await api.post<Cita>("/citas", {
-        fecha: formData.fecha,
-        hora: formData.hora,
-        motivo: formData.motivo,
-
-        observaciones: formData.observaciones,
-        dueño: {
-          nombre: formData.dueñoNombre,
-          telefono: formData.dueñoTelefono,
-          email: formData.dueñoEmail
-        },
-        mascota: {
-          nombre: formData.mascotaNombre,
-          tipo: formData.mascotaTipo,
-          raza: formData.mascotaRaza,
-          edad: formData.mascotaEdad
-        },
-        veterinario: {
-          nombre: formData.veterinario
-        },
-        clinica: {
-          nombre: formData.clinica,
-          direccion: formData.clinicaDireccion
-        }
-      });
-      
-      // Agregar la nueva cita a la lista
-      setCitas(prev => [nuevaCita, ...prev]);
-      
-      // Cerrar modal
+      await citaService.create({ ...formData, idCliente });
+      await cargarCitas();
       setModalRegistroOpen(false);
-      
-      console.log("Cita registrada exitosamente:", nuevaCita);
-    } catch (error) {
-      console.error("Error al registrar cita:", error);
+    } catch (e) {
+      setError(e instanceof Error ? e.message : "Error al crear cita");
     } finally {
       setLoading(false);
     }
   };
 
-  const handleActualizarCita = async (formData: CitaEditFormData) => {
-    if (!citaParaEditar) return;
-    
+  const handleEliminarCita = async (cita: Cita) => {
+    if (!idCliente || !confirm("¿Eliminar esta cita?")) return;
     setLoading(true);
+    setError(null);
     try {
-      // 🔧 CAMBIA ESTA RUTA por tu endpoint real
-      const citaActualizada = await api.put<Cita>(`/citas/${citaParaEditar.id}`, {
-        fecha: formData.fecha,
-        hora: formData.hora,
-        motivo: formData.motivo,
-        observaciones: formData.observaciones,
-        dueño: {
-          nombre: formData.dueñoNombre,
-          telefono: formData.dueñoTelefono,
-          email: formData.dueñoEmail
-        },
-        mascota: {
-          nombre: formData.mascotaNombre,
-          tipo: formData.mascotaTipo,
-          raza: formData.mascotaRaza,
-          edad: formData.mascotaEdad
-        },
-        veterinario: {
-          nombre: formData.veterinario
-        },
-        clinica: {
-          nombre: formData.clinica,
-          direccion: formData.clinicaDireccion
-        }
-      });
-      
-      // Actualizar la cita en la lista
-      setCitas(prev => prev.map(c => c.id === citaParaEditar.id ? citaActualizada : c));
-      
-      // Cerrar modal
-      setModalEditarOpen(false);
-      setCitaParaEditar(null);
-      
-      console.log("Cita actualizada exitosamente:", citaActualizada);
-    } catch (error) {
-      console.error("Error al actualizar cita:", error);
+      await citaService.delete(cita.idCita, idCliente);
+      await cargarCitas();
+    } catch (e) {
+      setError(e instanceof Error ? e.message : "Error al eliminar cita");
     } finally {
       setLoading(false);
     }
   };
 
-  const cerrarModalDetalles = () => {
-    setModalDetallesOpen(false);
-    setCitaSeleccionada(null);
-  };
-
-  const cerrarModalRegistro = () => {
-    setModalRegistroOpen(false);
-  };
-
-  const cerrarModalEditar = () => {
-    setModalEditarOpen(false);
-    setCitaParaEditar(null);
-  };
+  if (loadingPage) return <LoadingOverlay fullScreen message="Cargando citas..." />;
 
   return (
     <div className="w-full px-2 sm:px-4 lg:px-6">
@@ -330,8 +98,7 @@ function CitasPage() {
         <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-800">
           Mis Citas
         </h1>
-
-        <Button 
+        <Button
           onClick={() => setModalRegistroOpen(true)}
           className="bg-[#079f92] hover:bg-[#078c80] text-white rounded-xl px-4 sm:px-6 py-2.5 sm:py-3 text-sm sm:text-base font-bold shadow-sm w-full sm:w-auto"
         >
@@ -340,126 +107,160 @@ function CitasPage() {
         </Button>
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 2xl:grid-cols-4 gap-3 sm:gap-4 lg:gap-5">
-        {citas.map((cita, index) => {
-          return (
-            <div
-              key={cita.id ?? index}
-              className="bg-white rounded-xl border border-gray-200 shadow-sm p-4 sm:p-5 hover:shadow-lg hover:border-[#079f92]/30 transition-all duration-200"
-            >
-              {/* Header con icono */}
-              <div className="flex items-start mb-3">
-                <CitaIcon />
-              </div>
+      {error && <ErrorMessage message={error} className="mb-4" />}
 
-              {/* Fecha y hora */}
-              <div className="flex items-center gap-4 mb-4 text-sm text-gray-600">
-                <div className="flex items-center gap-1">
-                  <Calendar className="size-4" />
-                  <span>{cita.fecha}</span>
+      {citas.length === 0 && !error ? (
+        <EmptyState
+          title="Sin citas registradas"
+          description="Agenda tu primera cita veterinaria."
+          action={
+            <Button onClick={() => setModalRegistroOpen(true)} className="bg-[#079f92] hover:bg-[#078c80] text-white rounded-lg px-4 py-2 text-sm font-bold">
+              Registrar Cita
+            </Button>
+          }
+        />
+      ) : (
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-3 sm:gap-4 lg:gap-5">
+          {citas.map((cita) => {
+            const date = new Date(cita.fecha);
+            return (
+              <div key={cita.idCita} className="bg-white rounded-xl border border-gray-200 shadow-sm p-4 sm:p-5 hover:shadow-lg hover:border-[#079f92]/30 transition-all duration-200">
+                <div className="flex items-start justify-between mb-3">
+                  <CitaIcon />
+                  <span className="px-2 py-1 bg-[#079f92] text-white rounded-full text-xs font-bold">
+                    {cita.nombreTipoCita}
+                  </span>
                 </div>
-                <div className="flex items-center gap-1">
-                  <Clock className="size-4" />
-                  <span>{cita.hora}</span>
+
+                <div className="flex items-center gap-4 mb-3 text-sm text-gray-600">
+                  <div className="flex items-center gap-1">
+                    <Calendar className="size-4" />
+                    <span>{date.toLocaleDateString("es-PE")}</span>
+                  </div>
+                  <div className="flex items-center gap-1">
+                    <Clock className="size-4" />
+                    <span>{date.toLocaleTimeString("es-PE", { hour: "2-digit", minute: "2-digit" })}</span>
+                  </div>
+                </div>
+
+                <div className="mb-3 space-y-1">
+                  <p className="text-sm text-gray-800 font-medium">Mascota: {cita.nombreMascota}</p>
+                  <p className="text-sm text-gray-500">Clínica: {cita.nombreClinica}</p>
+                  {cita.comentario && <p className="text-xs text-gray-400 line-clamp-2">{cita.comentario}</p>}
+                </div>
+
+                <div className="flex gap-2">
+                  <Button
+                    onClick={() => { setCitaSeleccionada(cita); setModalDetallesOpen(true); }}
+                    className="flex-1 bg-[#f0644f] hover:bg-[#e55a47] text-white py-2 text-sm font-bold rounded-lg"
+                  >
+                    <Eye className="size-4 mr-1" /> Ver
+                  </Button>
+                  <Button
+                    onClick={() => handleEliminarCita(cita)}
+                    className="bg-red-500 hover:bg-red-600 text-white py-2 px-3 text-sm font-bold rounded-lg"
+                  >
+                    <Trash2 className="size-4" />
+                  </Button>
                 </div>
               </div>
+            );
+          })}
+        </div>
+      )}
 
-              {/* Información del dueño */}
-              <div className="mb-4">
-                <div className="flex items-center gap-2 mb-2">
-                  <User className="size-4 text-[#079f92]" />
-                  <span className="text-sm font-bold text-gray-700">Dueño</span>
-                </div>
-                <p className="text-sm text-gray-800 font-medium truncate">{cita.dueño.nombre}</p>
-                {cita.dueño.telefono && (
-                  <p className="text-xs text-gray-500 truncate">{cita.dueño.telefono}</p>
-                )}
-              </div>
-
-              {/* Información de la mascota */}
-              <div className="mb-4">
-                <div className="flex items-center gap-2 mb-2">
-                  <PawPrint className="size-4 text-[#079f92]" />
-                  <span className="text-sm font-bold text-gray-700">Mascota</span>
-                </div>
-                <p className="text-sm text-gray-800 font-medium truncate">{cita.mascota.nombre}</p>
-                <p className="text-xs text-gray-500 truncate">{cita.mascota.tipo} - {cita.mascota.raza}</p>
-              </div>
-
-              {/* Motivo */}
-              <div className="mb-4">
-                <p className="text-sm font-medium text-gray-700 mb-1">Motivo:</p>
-                <p className="text-sm text-gray-600 line-clamp-2">{cita.motivo}</p>
-              </div>
-
-              {/* Botones */}
-              <div className="flex gap-2">
-                <Button
-                  onClick={() => handleVerDetalles(cita)}
-                  className="flex-1 bg-[#f0644f] hover:bg-[#e55a47] text-white py-2 text-sm font-bold rounded-lg transition-colors"
-                >
-                  <Eye className="size-4 mr-1" />
-                  Ver Detalles
-                </Button>
-                
-                <Button
-                  onClick={() => handleEditarCita(cita)}
-                  className="flex-1 bg-orange-500 hover:bg-orange-600 text-white py-2 text-sm font-bold rounded-lg transition-colors"
-                >
-                  Editar
-                </Button>
-              </div>
-            </div>
-          );
-        })}
-      </div>
-
-      {/* Modal de detalles */}
+      {/* Modal Detalles */}
       {citaSeleccionada && (
-        <Modal
-          isOpen={modalDetallesOpen}
-          onClose={cerrarModalDetalles}
-          title={`Detalles de la Cita #${citaSeleccionada.id}`}
-          size="xl"
-        >
-          <CitaDetalles
-            cita={citaSeleccionada as CitaCompleta}
-            onClose={cerrarModalDetalles}
-          />
+        <Modal isOpen={modalDetallesOpen} onClose={() => { setModalDetallesOpen(false); setCitaSeleccionada(null); }} title="Detalles de la Cita" size="lg">
+          <div className="space-y-4">
+            <div className="grid grid-cols-2 gap-4">
+              <div><p className="text-sm text-gray-500">Tipo</p><p className="font-bold">{citaSeleccionada.nombreTipoCita}</p></div>
+              <div><p className="text-sm text-gray-500">Fecha</p><p className="font-bold">{new Date(citaSeleccionada.fecha).toLocaleString("es-PE")}</p></div>
+              <div><p className="text-sm text-gray-500">Mascota</p><p className="font-bold">{citaSeleccionada.nombreMascota}</p></div>
+              <div><p className="text-sm text-gray-500">Cliente</p><p className="font-bold">{citaSeleccionada.nombreCliente}</p></div>
+              <div><p className="text-sm text-gray-500">Clínica</p><p className="font-bold">{citaSeleccionada.nombreClinica}</p></div>
+            </div>
+            {citaSeleccionada.comentario && (
+              <div><p className="text-sm text-gray-500">Comentario</p><p>{citaSeleccionada.comentario}</p></div>
+            )}
+          </div>
         </Modal>
       )}
 
-      {/* Modal de edición */}
-      {citaParaEditar && (
-        <Modal
-          isOpen={modalEditarOpen}
-          onClose={cerrarModalEditar}
-          title={`Editar Cita #${citaParaEditar.id}`}
-          size="xl"
-        >
-          <EditarCitaForm
-            cita={citaParaEditar as CitaParaEditar}
-            onSubmit={handleActualizarCita}
-            onCancel={cerrarModalEditar}
-            loading={loading}
-          />
-        </Modal>
-      )}
-
-      {/* Modal de registro */}
-      <Modal
-        isOpen={modalRegistroOpen}
-        onClose={cerrarModalRegistro}
-        title="Agendar Nueva Cita"
-        size="xl"
-      >
-        <RegistrarCitaForm
-          onSubmit={handleRegistrarCita}
-          onCancel={cerrarModalRegistro}
+      {/* Modal Registro */}
+      <Modal isOpen={modalRegistroOpen} onClose={() => setModalRegistroOpen(false)} title="Agendar Nueva Cita" size="lg">
+        <CitaForm
+          tiposCita={tiposCita}
+          clinicas={clinicas}
+          mascotas={mascotas}
           loading={loading}
+          onSubmit={handleRegistrarCita}
+          onCancel={() => setModalRegistroOpen(false)}
         />
       </Modal>
     </div>
+  );
+}
+
+// ponytail: form inline, matches real API shape. No separate file needed.
+function CitaForm({ tiposCita, clinicas, mascotas, loading, onSubmit, onCancel }: {
+  tiposCita: TipoCita[]; clinicas: Clinica[]; mascotas: Mascota[];
+  loading: boolean; onSubmit: (data: CitaFormData) => void; onCancel: () => void;
+}) {
+  const { idCliente } = useAuth();
+  const [form, setForm] = useState<CitaFormData>({
+    idTipoCita: 0, fecha: "", comentario: "", idMascota: 0, idCliente: idCliente ?? 0, idClinica: 0,
+  });
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!form.idTipoCita || !form.fecha || !form.idMascota || !form.idClinica) return;
+    onSubmit(form);
+  };
+
+  const set = (field: keyof CitaFormData, value: string | number) =>
+    setForm((prev) => ({ ...prev, [field]: value }));
+
+  return (
+    <form onSubmit={handleSubmit} className="space-y-4">
+      <div>
+        <label className="block text-sm font-medium mb-1">Tipo de cita *</label>
+        <select value={form.idTipoCita} onChange={(e) => set("idTipoCita", Number(e.target.value))} className="w-full px-3 py-2 border border-gray-300 rounded-lg">
+          <option value={0}>Seleccionar...</option>
+          {tiposCita.map((t) => <option key={t.id} value={t.id}>{t.nombre}</option>)}
+        </select>
+      </div>
+      <div>
+        <label className="block text-sm font-medium mb-1">Fecha y hora *</label>
+        <input type="datetime-local" value={form.fecha} onChange={(e) => set("fecha", e.target.value)} className="w-full px-3 py-2 border border-gray-300 rounded-lg" />
+      </div>
+      <div>
+        <label className="block text-sm font-medium mb-1">Mascota *</label>
+        <select value={form.idMascota} onChange={(e) => set("idMascota", Number(e.target.value))} className="w-full px-3 py-2 border border-gray-300 rounded-lg">
+          <option value={0}>Seleccionar...</option>
+          {mascotas.map((m) => <option key={m.id} value={m.id}>{m.nombMas}</option>)}
+        </select>
+      </div>
+      <div>
+        <label className="block text-sm font-medium mb-1">Clínica *</label>
+        <select value={form.idClinica} onChange={(e) => set("idClinica", Number(e.target.value))} className="w-full px-3 py-2 border border-gray-300 rounded-lg">
+          <option value={0}>Seleccionar...</option>
+          {clinicas.map((c) => <option key={c.id} value={c.id}>{c.nombre} — {c.direccion}</option>)}
+        </select>
+      </div>
+      <div>
+        <label className="block text-sm font-medium mb-1">Comentario</label>
+        <textarea value={form.comentario} onChange={(e) => set("comentario", e.target.value)} rows={3} className="w-full px-3 py-2 border border-gray-300 rounded-lg resize-none" placeholder="Observaciones..." />
+      </div>
+      <div className="flex gap-3 pt-2">
+        <Button type="submit" disabled={loading} className="bg-[#079f92] hover:bg-[#078c80] text-white px-6 py-3 rounded-lg font-bold flex-1">
+          {loading ? "Agendando..." : "Agendar Cita"}
+        </Button>
+        <Button type="button" onClick={onCancel} className="bg-gray-500 hover:bg-gray-600 text-white px-6 py-3 rounded-lg font-bold">
+          Cancelar
+        </Button>
+      </div>
+    </form>
   );
 }
 

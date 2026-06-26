@@ -1,0 +1,808 @@
+{
+  "pbtResults": {},
+  "executionHistory": {
+    "Depends on: None": [
+      {
+        "executionId": "a51a13a7-ef91-4726-95bf-8cbb5aab8df9",
+        "chatSessionId": "sess_16d07c22-3fa1-49d6-9d19-f8938b4ac546",
+        "timestamp": 1782444785850
+      },
+      {
+        "executionId": "a51a13a7-ef91-4726-95bf-8cbb5aab8df9",
+        "chatSessionId": "sess_16d07c22-3fa1-49d6-9d19-f8938b4ac546",
+        "timestamp": 1782444786397
+      }
+    ],
+    "Depends on: Task 1, Task 2": [
+      {
+        "executionId": "a51a13a7-ef91-4726-95bf-8cbb5aab8df9",
+        "chatSessionId": "sess_16d07c22-3fa1-49d6-9d19-f8938b4ac546",
+        "timestamp": 1782444786005
+      }
+    ],
+    "Depends on: Task 3": [
+      {
+        "executionId": "a51a13a7-ef91-4726-95bf-8cbb5aab8df9",
+        "chatSessionId": "sess_16d07c22-3fa1-49d6-9d19-f8938b4ac546",
+        "timestamp": 1782444786122
+      }
+    ],
+    "Depends on: Task 4": [
+      {
+        "executionId": "a51a13a7-ef91-4726-95bf-8cbb5aab8df9",
+        "chatSessionId": "sess_16d07c22-3fa1-49d6-9d19-f8938b4ac546",
+        "timestamp": 1782444786187
+      }
+    ],
+    "Depends on: Task 1": [
+      {
+        "executionId": "a51a13a7-ef91-4726-95bf-8cbb5aab8df9",
+        "chatSessionId": "sess_16d07c22-3fa1-49d6-9d19-f8938b4ac546",
+        "timestamp": 1782444786294
+      },
+      {
+        "executionId": "a51a13a7-ef91-4726-95bf-8cbb5aab8df9",
+        "chatSessionId": "sess_16d07c22-3fa1-49d6-9d19-f8938b4ac546",
+        "timestamp": 1782444786340
+      }
+    ],
+    "Depends on: Task 3, Task 5, Task 6, Task 8": [
+      {
+        "executionId": "a51a13a7-ef91-4726-95bf-8cbb5aab8df9",
+        "chatSessionId": "sess_16d07c22-3fa1-49d6-9d19-f8938b4ac546",
+        "timestamp": 1782444786469
+      }
+    ],
+    "Depends on: Task 3, Task 6, Task 7": [
+      {
+        "executionId": "a51a13a7-ef91-4726-95bf-8cbb5aab8df9",
+        "chatSessionId": "sess_16d07c22-3fa1-49d6-9d19-f8938b4ac546",
+        "timestamp": 1782444786513
+      },
+      {
+        "executionId": "a51a13a7-ef91-4726-95bf-8cbb5aab8df9",
+        "chatSessionId": "sess_16d07c22-3fa1-49d6-9d19-f8938b4ac546",
+        "timestamp": 1782444786560
+      },
+      {
+        "executionId": "a51a13a7-ef91-4726-95bf-8cbb5aab8df9",
+        "chatSessionId": "sess_16d07c22-3fa1-49d6-9d19-f8938b4ac546",
+        "timestamp": 1782444786605
+      }
+    ],
+    "Depends on: Task 7": [
+      {
+        "executionId": "a51a13a7-ef91-4726-95bf-8cbb5aab8df9",
+        "chatSessionId": "sess_16d07c22-3fa1-49d6-9d19-f8938b4ac546",
+        "timestamp": 1782444786661
+      }
+    ],
+    "Depends on: Task 9, Task 10, Task 11, Task 12, Task 13": [
+      {
+        "executionId": "a51a13a7-ef91-4726-95bf-8cbb5aab8df9",
+        "chatSessionId": "sess_16d07c22-3fa1-49d6-9d19-f8938b4ac546",
+        "timestamp": 1782444786719
+      }
+    ],
+    "Rewrite `src/@types/index.ts` with unified interfaces matching real API responses (Cliente, Mascota, Cita, Clinica, TipoMascota, TipoCita) plus form data types (RegisterFormData, MascotaFormData, CitaFormData)": [
+      {
+        "executionId": "a51a13a7-ef91-4726-95bf-8cbb5aab8df9",
+        "chatSessionId": "sess_16d07c22-3fa1-49d6-9d19-f8938b4ac546",
+        "timestamp": 1782444895633
+      },
+      {
+        "executionId": "a51a13a7-ef91-4726-95bf-8cbb5aab8df9",
+        "chatSessionId": "sess_16d07c22-3fa1-49d6-9d19-f8938b4ac546",
+        "timestamp": 1782444924829
+      },
+      {
+        "executionId": "a51a13a7-ef91-4726-95bf-8cbb5aab8df9",
+        "chatSessionId": "sess_16d07c22-3fa1-49d6-9d19-f8938b4ac546",
+        "timestamp": 1782445041767
+      }
+    ],
+    "Replace content of `src/@types/database.ts` with `export * from './index'` to maintain backward compatibility": [
+      {
+        "executionId": "a51a13a7-ef91-4726-95bf-8cbb5aab8df9",
+        "chatSessionId": "sess_16d07c22-3fa1-49d6-9d19-f8938b4ac546",
+        "timestamp": 1782444895794
+      },
+      {
+        "executionId": "a51a13a7-ef91-4726-95bf-8cbb5aab8df9",
+        "chatSessionId": "sess_16d07c22-3fa1-49d6-9d19-f8938b4ac546",
+        "timestamp": 1782445047129
+      }
+    ],
+    "Replace content of `src/@types/models.ts` with `export * from './index'` to maintain backward compatibility": [
+      {
+        "executionId": "a51a13a7-ef91-4726-95bf-8cbb5aab8df9",
+        "chatSessionId": "sess_16d07c22-3fa1-49d6-9d19-f8938b4ac546",
+        "timestamp": 1782444895959
+      },
+      {
+        "executionId": "a51a13a7-ef91-4726-95bf-8cbb5aab8df9",
+        "chatSessionId": "sess_16d07c22-3fa1-49d6-9d19-f8938b4ac546",
+        "timestamp": 1782445052414
+      }
+    ],
+    "Keep `src/@types/https.types.ts` unchanged (re-exported from index.ts)": [
+      {
+        "executionId": "a51a13a7-ef91-4726-95bf-8cbb5aab8df9",
+        "chatSessionId": "sess_16d07c22-3fa1-49d6-9d19-f8938b4ac546",
+        "timestamp": 1782444896156
+      },
+      {
+        "executionId": "a51a13a7-ef91-4726-95bf-8cbb5aab8df9",
+        "chatSessionId": "sess_16d07c22-3fa1-49d6-9d19-f8938b4ac546",
+        "timestamp": 1782445058011
+      }
+    ],
+    "Merge RegisterFormData into index.ts and update `src/@types/Login.ts` to re-export": [
+      {
+        "executionId": "a51a13a7-ef91-4726-95bf-8cbb5aab8df9",
+        "chatSessionId": "sess_16d07c22-3fa1-49d6-9d19-f8938b4ac546",
+        "timestamp": 1782444896269
+      },
+      {
+        "executionId": "a51a13a7-ef91-4726-95bf-8cbb5aab8df9",
+        "chatSessionId": "sess_16d07c22-3fa1-49d6-9d19-f8938b4ac546",
+        "timestamp": 1782445062845
+      }
+    ],
+    "Modify `src/auth/firebase.config.ts` to add `getAuth` import and export the `auth` instance": [
+      {
+        "executionId": "a51a13a7-ef91-4726-95bf-8cbb5aab8df9",
+        "chatSessionId": "sess_16d07c22-3fa1-49d6-9d19-f8938b4ac546",
+        "timestamp": 1782444896374
+      },
+      {
+        "executionId": "a51a13a7-ef91-4726-95bf-8cbb5aab8df9",
+        "chatSessionId": "sess_16d07c22-3fa1-49d6-9d19-f8938b4ac546",
+        "timestamp": 1782445069239
+      },
+      {
+        "executionId": "a51a13a7-ef91-4726-95bf-8cbb5aab8df9",
+        "chatSessionId": "sess_16d07c22-3fa1-49d6-9d19-f8938b4ac546",
+        "timestamp": 1782445240672
+      }
+    ],
+    "Implement AuthProvider, AuthContext, and useAuth hook in `src/auth/index.ts`": [
+      {
+        "executionId": "a51a13a7-ef91-4726-95bf-8cbb5aab8df9",
+        "chatSessionId": "sess_16d07c22-3fa1-49d6-9d19-f8938b4ac546",
+        "timestamp": 1782444896436
+      },
+      {
+        "executionId": "a51a13a7-ef91-4726-95bf-8cbb5aab8df9",
+        "chatSessionId": "sess_16d07c22-3fa1-49d6-9d19-f8938b4ac546",
+        "timestamp": 1782445265777
+      },
+      {
+        "executionId": "a51a13a7-ef91-4726-95bf-8cbb5aab8df9",
+        "chatSessionId": "sess_16d07c22-3fa1-49d6-9d19-f8938b4ac546",
+        "timestamp": 1782445421752
+      }
+    ],
+    "AuthProvider subscribes to `onAuthStateChanged`, fetches cliente by uid from REST API": [
+      {
+        "executionId": "a51a13a7-ef91-4726-95bf-8cbb5aab8df9",
+        "chatSessionId": "sess_16d07c22-3fa1-49d6-9d19-f8938b4ac546",
+        "timestamp": 1782444896508
+      },
+      {
+        "executionId": "a51a13a7-ef91-4726-95bf-8cbb5aab8df9",
+        "chatSessionId": "sess_16d07c22-3fa1-49d6-9d19-f8938b4ac546",
+        "timestamp": 1782445423560
+      }
+    ],
+    "Exposes: user (Firebase), cliente (API), idCliente, loading, login, register, logout, resetPassword functions": [
+      {
+        "executionId": "a51a13a7-ef91-4726-95bf-8cbb5aab8df9",
+        "chatSessionId": "sess_16d07c22-3fa1-49d6-9d19-f8938b4ac546",
+        "timestamp": 1782444896621
+      },
+      {
+        "executionId": "a51a13a7-ef91-4726-95bf-8cbb5aab8df9",
+        "chatSessionId": "sess_16d07c22-3fa1-49d6-9d19-f8938b4ac546",
+        "timestamp": 1782445424287
+      }
+    ],
+    "login calls signInWithEmailAndPassword": [
+      {
+        "executionId": "a51a13a7-ef91-4726-95bf-8cbb5aab8df9",
+        "chatSessionId": "sess_16d07c22-3fa1-49d6-9d19-f8938b4ac546",
+        "timestamp": 1782444896687
+      },
+      {
+        "executionId": "a51a13a7-ef91-4726-95bf-8cbb5aab8df9",
+        "chatSessionId": "sess_16d07c22-3fa1-49d6-9d19-f8938b4ac546",
+        "timestamp": 1782445425264
+      }
+    ],
+    "register calls createUserWithEmailAndPassword + POST /api/clientes": [
+      {
+        "executionId": "a51a13a7-ef91-4726-95bf-8cbb5aab8df9",
+        "chatSessionId": "sess_16d07c22-3fa1-49d6-9d19-f8938b4ac546",
+        "timestamp": 1782444896757
+      },
+      {
+        "executionId": "a51a13a7-ef91-4726-95bf-8cbb5aab8df9",
+        "chatSessionId": "sess_16d07c22-3fa1-49d6-9d19-f8938b4ac546",
+        "timestamp": 1782445426221
+      }
+    ],
+    "logout calls signOut": [
+      {
+        "executionId": "a51a13a7-ef91-4726-95bf-8cbb5aab8df9",
+        "chatSessionId": "sess_16d07c22-3fa1-49d6-9d19-f8938b4ac546",
+        "timestamp": 1782444896818
+      },
+      {
+        "executionId": "a51a13a7-ef91-4726-95bf-8cbb5aab8df9",
+        "chatSessionId": "sess_16d07c22-3fa1-49d6-9d19-f8938b4ac546",
+        "timestamp": 1782445426971
+      }
+    ],
+    "resetPassword calls sendPasswordResetEmail": [
+      {
+        "executionId": "a51a13a7-ef91-4726-95bf-8cbb5aab8df9",
+        "chatSessionId": "sess_16d07c22-3fa1-49d6-9d19-f8938b4ac546",
+        "timestamp": 1782444896890
+      },
+      {
+        "executionId": "a51a13a7-ef91-4726-95bf-8cbb5aab8df9",
+        "chatSessionId": "sess_16d07c22-3fa1-49d6-9d19-f8938b4ac546",
+        "timestamp": 1782445427843
+      }
+    ],
+    "Implement `src/auth/ProtectedRoute.tsx` using useAuth hook": [
+      {
+        "executionId": "a51a13a7-ef91-4726-95bf-8cbb5aab8df9",
+        "chatSessionId": "sess_16d07c22-3fa1-49d6-9d19-f8938b4ac546",
+        "timestamp": 1782444896958
+      },
+      {
+        "executionId": "a51a13a7-ef91-4726-95bf-8cbb5aab8df9",
+        "chatSessionId": "sess_16d07c22-3fa1-49d6-9d19-f8938b4ac546",
+        "timestamp": 1782445433587
+      },
+      {
+        "executionId": "a51a13a7-ef91-4726-95bf-8cbb5aab8df9",
+        "chatSessionId": "sess_16d07c22-3fa1-49d6-9d19-f8938b4ac546",
+        "timestamp": 1782445517495
+      }
+    ],
+    "If loading → render LoadingOverlay (existing component)": [
+      {
+        "executionId": "a51a13a7-ef91-4726-95bf-8cbb5aab8df9",
+        "chatSessionId": "sess_16d07c22-3fa1-49d6-9d19-f8938b4ac546",
+        "timestamp": 1782444897120
+      },
+      {
+        "executionId": "a51a13a7-ef91-4726-95bf-8cbb5aab8df9",
+        "chatSessionId": "sess_16d07c22-3fa1-49d6-9d19-f8938b4ac546",
+        "timestamp": 1782445518444
+      }
+    ],
+    "If no user → Navigate to /login": [
+      {
+        "executionId": "a51a13a7-ef91-4726-95bf-8cbb5aab8df9",
+        "chatSessionId": "sess_16d07c22-3fa1-49d6-9d19-f8938b4ac546",
+        "timestamp": 1782444897296
+      },
+      {
+        "executionId": "a51a13a7-ef91-4726-95bf-8cbb5aab8df9",
+        "chatSessionId": "sess_16d07c22-3fa1-49d6-9d19-f8938b4ac546",
+        "timestamp": 1782445519493
+      }
+    ],
+    "If user → render Outlet": [
+      {
+        "executionId": "a51a13a7-ef91-4726-95bf-8cbb5aab8df9",
+        "chatSessionId": "sess_16d07c22-3fa1-49d6-9d19-f8938b4ac546",
+        "timestamp": 1782444897360
+      },
+      {
+        "executionId": "a51a13a7-ef91-4726-95bf-8cbb5aab8df9",
+        "chatSessionId": "sess_16d07c22-3fa1-49d6-9d19-f8938b4ac546",
+        "timestamp": 1782445520468
+      }
+    ],
+    "Modify `src/routers/routes.tsx` to wrap protected routes with ProtectedRoute": [
+      {
+        "executionId": "a51a13a7-ef91-4726-95bf-8cbb5aab8df9",
+        "chatSessionId": "sess_16d07c22-3fa1-49d6-9d19-f8938b4ac546",
+        "timestamp": 1782444897501
+      },
+      {
+        "executionId": "a51a13a7-ef91-4726-95bf-8cbb5aab8df9",
+        "chatSessionId": "sess_16d07c22-3fa1-49d6-9d19-f8938b4ac546",
+        "timestamp": 1782445521446
+      }
+    ],
+    "Add redirect from /login to /inicio when user is authenticated": [
+      {
+        "executionId": "a51a13a7-ef91-4726-95bf-8cbb5aab8df9",
+        "chatSessionId": "sess_16d07c22-3fa1-49d6-9d19-f8938b4ac546",
+        "timestamp": 1782444897611
+      },
+      {
+        "executionId": "a51a13a7-ef91-4726-95bf-8cbb5aab8df9",
+        "chatSessionId": "sess_16d07c22-3fa1-49d6-9d19-f8938b4ac546",
+        "timestamp": 1782445522523
+      }
+    ],
+    "Wrap main.tsx RouterProvider with AuthProvider": [
+      {
+        "executionId": "a51a13a7-ef91-4726-95bf-8cbb5aab8df9",
+        "chatSessionId": "sess_16d07c22-3fa1-49d6-9d19-f8938b4ac546",
+        "timestamp": 1782444897687
+      },
+      {
+        "executionId": "a51a13a7-ef91-4726-95bf-8cbb5aab8df9",
+        "chatSessionId": "sess_16d07c22-3fa1-49d6-9d19-f8938b4ac546",
+        "timestamp": 1782445523705
+      }
+    ],
+    "Rewrite `src/api/index.ts` with typed service objects: clienteService, mascotaService, citaService": [
+      {
+        "executionId": "a51a13a7-ef91-4726-95bf-8cbb5aab8df9",
+        "chatSessionId": "sess_16d07c22-3fa1-49d6-9d19-f8938b4ac546",
+        "timestamp": 1782444897790
+      },
+      {
+        "executionId": "a51a13a7-ef91-4726-95bf-8cbb5aab8df9",
+        "chatSessionId": "sess_16d07c22-3fa1-49d6-9d19-f8938b4ac546",
+        "timestamp": 1782445072157
+      },
+      {
+        "executionId": "a51a13a7-ef91-4726-95bf-8cbb5aab8df9",
+        "chatSessionId": "sess_16d07c22-3fa1-49d6-9d19-f8938b4ac546",
+        "timestamp": 1782445241556
+      }
+    ],
+    "Use existing `api` from `./http.ts` as base": [
+      {
+        "executionId": "a51a13a7-ef91-4726-95bf-8cbb5aab8df9",
+        "chatSessionId": "sess_16d07c22-3fa1-49d6-9d19-f8938b4ac546",
+        "timestamp": 1782444897857
+      },
+      {
+        "executionId": "a51a13a7-ef91-4726-95bf-8cbb5aab8df9",
+        "chatSessionId": "sess_16d07c22-3fa1-49d6-9d19-f8938b4ac546",
+        "timestamp": 1782445249949
+      }
+    ],
+    "clienteService: getAll, getById, create, update": [
+      {
+        "executionId": "a51a13a7-ef91-4726-95bf-8cbb5aab8df9",
+        "chatSessionId": "sess_16d07c22-3fa1-49d6-9d19-f8938b4ac546",
+        "timestamp": 1782444897927
+      },
+      {
+        "executionId": "a51a13a7-ef91-4726-95bf-8cbb5aab8df9",
+        "chatSessionId": "sess_16d07c22-3fa1-49d6-9d19-f8938b4ac546",
+        "timestamp": 1782445250788
+      }
+    ],
+    "mascotaService: getByCliente, getById, update, delete (create goes via SOAP)": [
+      {
+        "executionId": "a51a13a7-ef91-4726-95bf-8cbb5aab8df9",
+        "chatSessionId": "sess_16d07c22-3fa1-49d6-9d19-f8938b4ac546",
+        "timestamp": 1782444898100
+      },
+      {
+        "executionId": "a51a13a7-ef91-4726-95bf-8cbb5aab8df9",
+        "chatSessionId": "sess_16d07c22-3fa1-49d6-9d19-f8938b4ac546",
+        "timestamp": 1782445251653
+      }
+    ],
+    "citaService: getByCliente, getById, create, update, delete": [
+      {
+        "executionId": "a51a13a7-ef91-4726-95bf-8cbb5aab8df9",
+        "chatSessionId": "sess_16d07c22-3fa1-49d6-9d19-f8938b4ac546",
+        "timestamp": 1782444898231
+      },
+      {
+        "executionId": "a51a13a7-ef91-4726-95bf-8cbb5aab8df9",
+        "chatSessionId": "sess_16d07c22-3fa1-49d6-9d19-f8938b4ac546",
+        "timestamp": 1782445252567
+      }
+    ],
+    "Create `src/api/soap.ts` — lightweight SOAP client using fetch + DOMParser": [
+      {
+        "executionId": "a51a13a7-ef91-4726-95bf-8cbb5aab8df9",
+        "chatSessionId": "sess_16d07c22-3fa1-49d6-9d19-f8938b4ac546",
+        "timestamp": 1782444898290
+      },
+      {
+        "executionId": "a51a13a7-ef91-4726-95bf-8cbb5aab8df9",
+        "chatSessionId": "sess_16d07c22-3fa1-49d6-9d19-f8938b4ac546",
+        "timestamp": 1782445074486
+      },
+      {
+        "executionId": "a51a13a7-ef91-4726-95bf-8cbb5aab8df9",
+        "chatSessionId": "sess_16d07c22-3fa1-49d6-9d19-f8938b4ac546",
+        "timestamp": 1782445242461
+      }
+    ],
+    "Build XML envelope, POST to SOAP endpoint, parse XML response to JS objects": [
+      {
+        "executionId": "a51a13a7-ef91-4726-95bf-8cbb5aab8df9",
+        "chatSessionId": "sess_16d07c22-3fa1-49d6-9d19-f8938b4ac546",
+        "timestamp": 1782444898358
+      },
+      {
+        "executionId": "a51a13a7-ef91-4726-95bf-8cbb5aab8df9",
+        "chatSessionId": "sess_16d07c22-3fa1-49d6-9d19-f8938b4ac546",
+        "timestamp": 1782445253901
+      }
+    ],
+    "Use VITE_URL_BASE_SOAP as base URL": [
+      {
+        "executionId": "a51a13a7-ef91-4726-95bf-8cbb5aab8df9",
+        "chatSessionId": "sess_16d07c22-3fa1-49d6-9d19-f8938b4ac546",
+        "timestamp": 1782444898524
+      },
+      {
+        "executionId": "a51a13a7-ef91-4726-95bf-8cbb5aab8df9",
+        "chatSessionId": "sess_16d07c22-3fa1-49d6-9d19-f8938b4ac546",
+        "timestamp": 1782445254730
+      }
+    ],
+    "Rewrite `src/services/index.ts` with: catalogoService (getTiposMascota, getTiposCita, getClinicas) and mascotaSoapService (registrar)": [
+      {
+        "executionId": "a51a13a7-ef91-4726-95bf-8cbb5aab8df9",
+        "chatSessionId": "sess_16d07c22-3fa1-49d6-9d19-f8938b4ac546",
+        "timestamp": 1782444898586
+      },
+      {
+        "executionId": "a51a13a7-ef91-4726-95bf-8cbb5aab8df9",
+        "chatSessionId": "sess_16d07c22-3fa1-49d6-9d19-f8938b4ac546",
+        "timestamp": 1782445255956
+      }
+    ],
+    "Fix LoginForm.tsx: remove `<th/>` inside `<p>`, fix orphan `<a>` tag": [
+      {
+        "executionId": "a51a13a7-ef91-4726-95bf-8cbb5aab8df9",
+        "chatSessionId": "sess_16d07c22-3fa1-49d6-9d19-f8938b4ac546",
+        "timestamp": 1782444898660
+      },
+      {
+        "executionId": "a51a13a7-ef91-4726-95bf-8cbb5aab8df9",
+        "chatSessionId": "sess_16d07c22-3fa1-49d6-9d19-f8938b4ac546",
+        "timestamp": 1782445070852
+      },
+      {
+        "executionId": "a51a13a7-ef91-4726-95bf-8cbb5aab8df9",
+        "chatSessionId": "sess_16d07c22-3fa1-49d6-9d19-f8938b4ac546",
+        "timestamp": 1782445243769
+      }
+    ],
+    "Fix AuthPage.tsx: replace hardcoded `src\\assets\\MASCOTAS_login.png` with a proper static import": [
+      {
+        "executionId": "a51a13a7-ef91-4726-95bf-8cbb5aab8df9",
+        "chatSessionId": "sess_16d07c22-3fa1-49d6-9d19-f8938b4ac546",
+        "timestamp": 1782444898824
+      }
+    ],
+    "Remove console.log placeholders from AuthPage.tsx, MascotasPage.tsx, CitasPage.tsx": [
+      {
+        "executionId": "a51a13a7-ef91-4726-95bf-8cbb5aab8df9",
+        "chatSessionId": "sess_16d07c22-3fa1-49d6-9d19-f8938b4ac546",
+        "timestamp": 1782444898894
+      },
+      {
+        "executionId": "a51a13a7-ef91-4726-95bf-8cbb5aab8df9",
+        "chatSessionId": "sess_16d07c22-3fa1-49d6-9d19-f8938b4ac546",
+        "timestamp": 1782445258295
+      }
+    ],
+    "Modify `src/pages/AuthPage.tsx` to use useAuth() for login and register": [
+      {
+        "executionId": "a51a13a7-ef91-4726-95bf-8cbb5aab8df9",
+        "chatSessionId": "sess_16d07c22-3fa1-49d6-9d19-f8938b4ac546",
+        "timestamp": 1782444898989
+      },
+      {
+        "executionId": "a51a13a7-ef91-4726-95bf-8cbb5aab8df9",
+        "chatSessionId": "sess_16d07c22-3fa1-49d6-9d19-f8938b4ac546",
+        "timestamp": 1782445593956
+      },
+      {
+        "executionId": "a51a13a7-ef91-4726-95bf-8cbb5aab8df9",
+        "chatSessionId": "sess_16d07c22-3fa1-49d6-9d19-f8938b4ac546",
+        "timestamp": 1782445997834
+      }
+    ],
+    "handleLogin → call auth context login function": [
+      {
+        "executionId": "a51a13a7-ef91-4726-95bf-8cbb5aab8df9",
+        "chatSessionId": "sess_16d07c22-3fa1-49d6-9d19-f8938b4ac546",
+        "timestamp": 1782444899056
+      },
+      {
+        "executionId": "a51a13a7-ef91-4726-95bf-8cbb5aab8df9",
+        "chatSessionId": "sess_16d07c22-3fa1-49d6-9d19-f8938b4ac546",
+        "timestamp": 1782445998765
+      }
+    ],
+    "handleRegister → call auth context register function": [
+      {
+        "executionId": "a51a13a7-ef91-4726-95bf-8cbb5aab8df9",
+        "chatSessionId": "sess_16d07c22-3fa1-49d6-9d19-f8938b4ac546",
+        "timestamp": 1782444899122
+      },
+      {
+        "executionId": "a51a13a7-ef91-4726-95bf-8cbb5aab8df9",
+        "chatSessionId": "sess_16d07c22-3fa1-49d6-9d19-f8938b4ac546",
+        "timestamp": 1782446000138
+      }
+    ],
+    "handleForgotPassword → call auth context resetPassword function": [
+      {
+        "executionId": "a51a13a7-ef91-4726-95bf-8cbb5aab8df9",
+        "chatSessionId": "sess_16d07c22-3fa1-49d6-9d19-f8938b4ac546",
+        "timestamp": 1782444899189
+      },
+      {
+        "executionId": "a51a13a7-ef91-4726-95bf-8cbb5aab8df9",
+        "chatSessionId": "sess_16d07c22-3fa1-49d6-9d19-f8938b4ac546",
+        "timestamp": 1782446000735
+      }
+    ],
+    "Remove all TODO comments and console.logs": [
+      {
+        "executionId": "a51a13a7-ef91-4726-95bf-8cbb5aab8df9",
+        "chatSessionId": "sess_16d07c22-3fa1-49d6-9d19-f8938b4ac546",
+        "timestamp": 1782444899335
+      },
+      {
+        "executionId": "a51a13a7-ef91-4726-95bf-8cbb5aab8df9",
+        "chatSessionId": "sess_16d07c22-3fa1-49d6-9d19-f8938b4ac546",
+        "timestamp": 1782446001685
+      }
+    ],
+    "Modify `src/pages/MascotasPage.tsx` to use useAuth() for idCliente": [
+      {
+        "executionId": "a51a13a7-ef91-4726-95bf-8cbb5aab8df9",
+        "chatSessionId": "sess_16d07c22-3fa1-49d6-9d19-f8938b4ac546",
+        "timestamp": 1782444899404
+      },
+      {
+        "executionId": "a51a13a7-ef91-4726-95bf-8cbb5aab8df9",
+        "chatSessionId": "sess_16d07c22-3fa1-49d6-9d19-f8938b4ac546",
+        "timestamp": 1782446002620
+      }
+    ],
+    "Load mascotas via mascotaService.getByCliente(idCliente) from REST": [
+      {
+        "executionId": "a51a13a7-ef91-4726-95bf-8cbb5aab8df9",
+        "chatSessionId": "sess_16d07c22-3fa1-49d6-9d19-f8938b4ac546",
+        "timestamp": 1782444899530
+      },
+      {
+        "executionId": "a51a13a7-ef91-4726-95bf-8cbb5aab8df9",
+        "chatSessionId": "sess_16d07c22-3fa1-49d6-9d19-f8938b4ac546",
+        "timestamp": 1782446003592
+      }
+    ],
+    "Load tipos mascota via catalogoService.getTiposMascota() from SOAP": [
+      {
+        "executionId": "a51a13a7-ef91-4726-95bf-8cbb5aab8df9",
+        "chatSessionId": "sess_16d07c22-3fa1-49d6-9d19-f8938b4ac546",
+        "timestamp": 1782444899592
+      },
+      {
+        "executionId": "a51a13a7-ef91-4726-95bf-8cbb5aab8df9",
+        "chatSessionId": "sess_16d07c22-3fa1-49d6-9d19-f8938b4ac546",
+        "timestamp": 1782446004448
+      }
+    ],
+    "Register new mascota via mascotaSoapService.registrar() from SOAP": [
+      {
+        "executionId": "a51a13a7-ef91-4726-95bf-8cbb5aab8df9",
+        "chatSessionId": "sess_16d07c22-3fa1-49d6-9d19-f8938b4ac546",
+        "timestamp": 1782444899733
+      },
+      {
+        "executionId": "a51a13a7-ef91-4726-95bf-8cbb5aab8df9",
+        "chatSessionId": "sess_16d07c22-3fa1-49d6-9d19-f8938b4ac546",
+        "timestamp": 1782446005344
+      }
+    ],
+    "Update/delete via mascotaService from REST": [
+      {
+        "executionId": "a51a13a7-ef91-4726-95bf-8cbb5aab8df9",
+        "chatSessionId": "sess_16d07c22-3fa1-49d6-9d19-f8938b4ac546",
+        "timestamp": 1782444899791
+      },
+      {
+        "executionId": "a51a13a7-ef91-4726-95bf-8cbb5aab8df9",
+        "chatSessionId": "sess_16d07c22-3fa1-49d6-9d19-f8938b4ac546",
+        "timestamp": 1782446006188
+      }
+    ],
+    "Remove all mock data imports and fallbacks": [
+      {
+        "executionId": "a51a13a7-ef91-4726-95bf-8cbb5aab8df9",
+        "chatSessionId": "sess_16d07c22-3fa1-49d6-9d19-f8938b4ac546",
+        "timestamp": 1782444899905
+      },
+      {
+        "executionId": "a51a13a7-ef91-4726-95bf-8cbb5aab8df9",
+        "chatSessionId": "sess_16d07c22-3fa1-49d6-9d19-f8938b4ac546",
+        "timestamp": 1782446007326
+      }
+    ],
+    "Show LoadingOverlay while loading, ErrorMessage on error, EmptyState when empty": [
+      {
+        "executionId": "a51a13a7-ef91-4726-95bf-8cbb5aab8df9",
+        "chatSessionId": "sess_16d07c22-3fa1-49d6-9d19-f8938b4ac546",
+        "timestamp": 1782444900015
+      },
+      {
+        "executionId": "a51a13a7-ef91-4726-95bf-8cbb5aab8df9",
+        "chatSessionId": "sess_16d07c22-3fa1-49d6-9d19-f8938b4ac546",
+        "timestamp": 1782446008064
+      }
+    ],
+    "Modify `src/pages/CitasPage.tsx` to use useAuth() for idCliente": [
+      {
+        "executionId": "a51a13a7-ef91-4726-95bf-8cbb5aab8df9",
+        "chatSessionId": "sess_16d07c22-3fa1-49d6-9d19-f8938b4ac546",
+        "timestamp": 1782444900126
+      },
+      {
+        "executionId": "a51a13a7-ef91-4726-95bf-8cbb5aab8df9",
+        "chatSessionId": "sess_16d07c22-3fa1-49d6-9d19-f8938b4ac546",
+        "timestamp": 1782446013761
+      }
+    ],
+    "Load citas via citaService.getByCliente(idCliente) from REST": [
+      {
+        "executionId": "a51a13a7-ef91-4726-95bf-8cbb5aab8df9",
+        "chatSessionId": "sess_16d07c22-3fa1-49d6-9d19-f8938b4ac546",
+        "timestamp": 1782444900240
+      }
+    ],
+    "Load tipos cita via catalogoService.getTiposCita() from SOAP": [
+      {
+        "executionId": "a51a13a7-ef91-4726-95bf-8cbb5aab8df9",
+        "chatSessionId": "sess_16d07c22-3fa1-49d6-9d19-f8938b4ac546",
+        "timestamp": 1782444900335
+      }
+    ],
+    "Load clínicas via catalogoService.getClinicas() from SOAP": [
+      {
+        "executionId": "a51a13a7-ef91-4726-95bf-8cbb5aab8df9",
+        "chatSessionId": "sess_16d07c22-3fa1-49d6-9d19-f8938b4ac546",
+        "timestamp": 1782444900448
+      }
+    ],
+    "Load mascotas via mascotaService.getByCliente(idCliente) for combo in form": [
+      {
+        "executionId": "a51a13a7-ef91-4726-95bf-8cbb5aab8df9",
+        "chatSessionId": "sess_16d07c22-3fa1-49d6-9d19-f8938b4ac546",
+        "timestamp": 1782444900592
+      }
+    ],
+    "Create/update/delete citas via citaService from REST": [
+      {
+        "executionId": "a51a13a7-ef91-4726-95bf-8cbb5aab8df9",
+        "chatSessionId": "sess_16d07c22-3fa1-49d6-9d19-f8938b4ac546",
+        "timestamp": 1782444900663
+      }
+    ],
+    "Remove all mock data and local type definitions": [
+      {
+        "executionId": "a51a13a7-ef91-4726-95bf-8cbb5aab8df9",
+        "chatSessionId": "sess_16d07c22-3fa1-49d6-9d19-f8938b4ac546",
+        "timestamp": 1782444900778
+      }
+    ],
+    "Show LoadingOverlay, ErrorMessage, EmptyState as needed": [
+      {
+        "executionId": "a51a13a7-ef91-4726-95bf-8cbb5aab8df9",
+        "chatSessionId": "sess_16d07c22-3fa1-49d6-9d19-f8938b4ac546",
+        "timestamp": 1782444900845
+      }
+    ],
+    "Modify `src/pages/InicioPage.tsx` to use useAuth() for idCliente and cliente name": [
+      {
+        "executionId": "a51a13a7-ef91-4726-95bf-8cbb5aab8df9",
+        "chatSessionId": "sess_16d07c22-3fa1-49d6-9d19-f8938b4ac546",
+        "timestamp": 1782444900911
+      },
+      {
+        "executionId": "a51a13a7-ef91-4726-95bf-8cbb5aab8df9",
+        "chatSessionId": "sess_16d07c22-3fa1-49d6-9d19-f8938b4ac546",
+        "timestamp": 1782446014988
+      }
+    ],
+    "Load mascotas count and citas from REST services": [
+      {
+        "executionId": "a51a13a7-ef91-4726-95bf-8cbb5aab8df9",
+        "chatSessionId": "sess_16d07c22-3fa1-49d6-9d19-f8938b4ac546",
+        "timestamp": 1782444900974
+      }
+    ],
+    "Load clínicas count from SOAP service": [
+      {
+        "executionId": "a51a13a7-ef91-4726-95bf-8cbb5aab8df9",
+        "chatSessionId": "sess_16d07c22-3fa1-49d6-9d19-f8938b4ac546",
+        "timestamp": 1782444901089
+      }
+    ],
+    "Replace hardcoded stats with real API data": [
+      {
+        "executionId": "a51a13a7-ef91-4726-95bf-8cbb5aab8df9",
+        "chatSessionId": "sess_16d07c22-3fa1-49d6-9d19-f8938b4ac546",
+        "timestamp": 1782444901159
+      }
+    ],
+    "Show user name in greeting (from AuthContext cliente)": [
+      {
+        "executionId": "a51a13a7-ef91-4726-95bf-8cbb5aab8df9",
+        "chatSessionId": "sess_16d07c22-3fa1-49d6-9d19-f8938b4ac546",
+        "timestamp": 1782444901229
+      }
+    ],
+    "Remove all mock data imports": [
+      {
+        "executionId": "a51a13a7-ef91-4726-95bf-8cbb5aab8df9",
+        "chatSessionId": "sess_16d07c22-3fa1-49d6-9d19-f8938b4ac546",
+        "timestamp": 1782444901293
+      }
+    ],
+    "Modify `src/pages/ClinicasPage.tsx` to load clínicas from catalogoService.getClinicas() via SOAP": [
+      {
+        "executionId": "a51a13a7-ef91-4726-95bf-8cbb5aab8df9",
+        "chatSessionId": "sess_16d07c22-3fa1-49d6-9d19-f8938b4ac546",
+        "timestamp": 1782444901382
+      }
+    ],
+    "Show LoadingOverlay while loading, ErrorMessage on error": [
+      {
+        "executionId": "a51a13a7-ef91-4726-95bf-8cbb5aab8df9",
+        "chatSessionId": "sess_16d07c22-3fa1-49d6-9d19-f8938b4ac546",
+        "timestamp": 1782444901463
+      }
+    ],
+    "Display clinicas list with nombre and direccion": [
+      {
+        "executionId": "a51a13a7-ef91-4726-95bf-8cbb5aab8df9",
+        "chatSessionId": "sess_16d07c22-3fa1-49d6-9d19-f8938b4ac546",
+        "timestamp": 1782444901577
+      }
+    ],
+    "Remove mock data constants from `src/@types/database.ts` (TIPOS_MASCOTA, TIPOS_CITA, CLINICAS, CLIENTES, MASCOTAS_MOCK, CITAS_MOCK)": [
+      {
+        "executionId": "a51a13a7-ef91-4726-95bf-8cbb5aab8df9",
+        "chatSessionId": "sess_16d07c22-3fa1-49d6-9d19-f8938b4ac546",
+        "timestamp": 1782444901663
+      }
+    ],
+    "If database.ts and models.ts only contain re-exports, verify no other file imports from them directly, then simplify": [
+      {
+        "executionId": "a51a13a7-ef91-4726-95bf-8cbb5aab8df9",
+        "chatSessionId": "sess_16d07c22-3fa1-49d6-9d19-f8938b4ac546",
+        "timestamp": 1782444901729
+      }
+    ],
+    "Remove `src/services/index.ts` old mock data (clientes, mascotas, citas, etc.) — should already be replaced by SOAP services": [
+      {
+        "executionId": "a51a13a7-ef91-4726-95bf-8cbb5aab8df9",
+        "chatSessionId": "sess_16d07c22-3fa1-49d6-9d19-f8938b4ac546",
+        "timestamp": 1782444901795
+      }
+    ],
+    "Verify build compiles cleanly with `tsc && vite build`": [
+      {
+        "executionId": "a51a13a7-ef91-4726-95bf-8cbb5aab8df9",
+        "chatSessionId": "sess_16d07c22-3fa1-49d6-9d19-f8938b4ac546",
+        "timestamp": 1782444901865
+      }
+    ]
+  }
+}

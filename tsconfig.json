@@ -26,6 +26,7 @@
       "@routers":["src/routers/index.ts"],
       "@routers/*":["src/routers/*"],
       "@auth/*":["src/auth/*"],
+      "@config/*":["src/config/*"],
       "@pages/*":["src/pages/*"],
       "@appTypes":["src/@types/index.ts"],
       "@appTypes/*":["src/@types/*"],

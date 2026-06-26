@@ -1,37 +1,45 @@
-import { PageHeader } from "@components/common";
-import { clinicas, citas } from "@services";
-import ClinicaIcon from "@assets/CLINICAS.svg";
+import { useEffect, useState } from "react";
+import { PageHeader, LoadingOverlay, EmptyState, ErrorMessage } from "@components/common";
+import { ClinicaCard } from "@components/clinicas";
+import { catalogoService } from "@services/index";
+import type { Clinica } from "@appTypes";
 
 function ClinicasPage() {
+  const [clinicas, setClinicas] = useState<Clinica[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
+
+  useEffect(() => {
+    catalogoService
+      .getClinicas()
+      .then(setClinicas)
+      .catch((e: Error) => setError(e.message || "Error al cargar clínicas"))
+      .finally(() => setLoading(false));
+  }, []);
+
   return (
     <div className="space-y-6">
       <PageHeader
         title="Clínicas"
-        description="Visualiza las clínicas disponibles y el número de citas agendadas en cada una."
+        description="Visualiza las clínicas veterinarias disponibles."
       />
 
-      <div className="grid gap-4 md:grid-cols-3">
-        {clinicas.map((clinica) => {
-          const citasCount = citas.filter((c) => c.idclinica === clinica.id).length;
-          return (
-            <div
-              key={clinica.id}
-              className="flex items-center gap-4 rounded-2xl border border-slate-200 bg-white px-5 py-4 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md"
-            >
-              <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-[#e8f5f3]">
-                <img src={ClinicaIcon} alt="Clínica" className="h-6 w-6" />
-              </div>
-              <div className="min-w-0">
-                <p className="truncate font-semibold text-slate-800">{clinica.nombre}</p>
-                <p className="truncate text-xs text-[#2db5a3]">{clinica.direccion}</p>
-                <p className="text-xs text-slate-400 mt-0.5">
-                  {citasCount} cita{citasCount !== 1 ? "s" : ""} agendada{citasCount !== 1 ? "s" : ""}
-                </p>
-              </div>
-            </div>
-          );
-        })}
-      </div>
+      {loading && <LoadingOverlay message="Cargando clínicas..." />}
+      {error && <ErrorMessage message={error} />}
+      {!loading && !error && clinicas.length === 0 && (
+        <EmptyState
+          title="Sin clínicas"
+          description="No se encontraron clínicas registradas."
+        />
+      )}
+
+      {!loading && !error && clinicas.length > 0 && (
+        <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5">
+          {clinicas.map((clinica) => (
+            <ClinicaCard key={clinica.id} clinica={clinica} />
+          ))}
+        </div>
+      )}
     </div>
   );
 }

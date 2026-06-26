@@ -19,3 +19,5 @@ export { Skeleton } from "./Skeleton.js";
 
 export { Separator } from "./Separator.js";
 export type { SeparatorProps } from "./Separator.js";
+
+export { default as Modal } from "./Modal.js";

@@ -1,19 +1,8 @@
 import { useState } from "react";
-import { Mail, Lock, Eye, EyeOff, User, Phone, Calendar } from "lucide-react";
-import { Button } from "@components/ui/Button";
-import { Input } from "@components/ui/Input";
-import { Label } from "@components/ui/Label";
-import { Spinner } from "@components/ui/Spinner";
+import { Mail, Lock, Eye, EyeOff, User, Calendar } from "lucide-react";
+import { Button, Input, Label, Spinner } from "@components/ui";
 import { ErrorMessage } from "@components/common/ErrorMessage";
-
-interface RegisterFormData {
-  nombre: string;
-  apellido: string;
-  email: string;
-  telefono: string;
-  fecNac: string;
-  password: string;
-}
+import type { RegisterFormData } from "@appTypes";
 
 interface RegisterFormProps {
   onSubmit: (data: RegisterFormData) => void;
@@ -33,9 +22,8 @@ function RegisterForm({
     nombre: "",
     apellido: "",
     email: "",
-    telefono: "",
-    fecNac: "",
     password: "",
+    fecNac: "",
   });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -103,24 +91,6 @@ function RegisterForm({
               name="email"
               placeholder="CORREO ELECTRÓNICO"
               value={formData.email}
-              onChange={handleChange}
-              required
-              className="pl-10"
-            />
-          </div>
-        </div>
-
-        {/* Teléfono */}
-        <div className="space-y-1.5">
-          <Label htmlFor="reg-telefono" className="sr-only">Teléfono</Label>
-          <div className="relative">
-            <Phone className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-gray-400" />
-            <Input
-              id="reg-telefono"
-              type="tel"
-              name="telefono"
-              placeholder="TELÉFONO"
-              value={formData.telefono}
               onChange={handleChange}
               required
               className="pl-10"
@@ -209,4 +179,3 @@ function RegisterForm({
 }
 
 export default RegisterForm;
-export type { RegisterFormData };

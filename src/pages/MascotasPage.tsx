@@ -1,34 +1,15 @@
-import { useEffect, useState } from "react";
-import { PawPrint, Plus, Eye, User, Heart } from "lucide-react";
-import { Button } from "@components/ui/Button";
-import Modal from "@components/ui/Modal";
-import { api } from "@api/http";
-import RegistrarMascotaForm, { type MascotaFormData } from "@components/mascotas/RegistrarMascotaForm";
+import { useEffect, useState, useCallback } from "react";
+import { Eye, Heart } from "lucide-react";
+import { Button, Modal } from "@components/ui";
+import { LoadingOverlay, EmptyState, ErrorMessage } from "@components/common";
+import RegistrarMascotaForm from "@components/mascotas/RegistrarMascotaForm";
 import MascotaDetalles from "@components/mascotas/MascotaDetalles";
-import EditarMascotaForm, { type MascotaEditFormData, type MascotaParaEditar } from "@components/mascotas/EditarMascotaForm";
-import { type Mascota, MASCOTAS_MOCK, TIPOS_MASCOTA, type TipoMascota } from "@appTypes/database";
+import EditarMascotaForm from "@components/mascotas/EditarMascotaForm";
+import { mascotaService, catalogoService } from "@services/index";
+import { useAuth } from "@auth/index";
+import type { Mascota, TipoMascota, MascotaFormData } from "@appTypes";
 import miIcono from "../assets/MASCOTAS.svg";
 import registrarIcon from "../assets/REGISTRAR MASCOTAS.png";
-
-function obtenerNombreMascota(mascota: Mascota): string {
-  return mascota.nombmas || "Sin nombre";
-}
-
-function obtenerTipoMascota(mascota: Mascota): string {
-  if (mascota.tipoMascota?.nombre) {
-    return mascota.tipoMascota.nombre;
-  }
-  
-  const tipo = TIPOS_MASCOTA.find((t: TipoMascota) => t.id === mascota.tipomas);
-  return tipo?.nombre || "Sin tipo";
-}
-
-function obtenerNombreDueño(mascota: Mascota): string {
-  if (mascota.cliente) {
-    return `${mascota.cliente.nombcli} ${mascota.cliente.apecli}`;
-  }
-  return "Dueño no disponible";
-}
 
 function MascotaIcon() {
   return (
@@ -39,27 +20,41 @@ function MascotaIcon() {
 }
 
 function MascotasPage() {
-  const [mascotas, setMascotas] = useState<Mascota[]>(MASCOTAS_MOCK);
+  const { idCliente } = useAuth();
+
+  const [mascotas, setMascotas] = useState<Mascota[]>([]);
+  const [tiposMascota, setTiposMascota] = useState<TipoMascota[]>([]);
+  const [loadingPage, setLoadingPage] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const [loading, setLoading] = useState(false);
+
   const [modalRegistroOpen, setModalRegistroOpen] = useState(false);
   const [modalDetallesOpen, setModalDetallesOpen] = useState(false);
   const [modalEditarOpen, setModalEditarOpen] = useState(false);
   const [mascotaSeleccionada, setMascotaSeleccionada] = useState<Mascota | null>(null);
   const [mascotaParaEditar, setMascotaParaEditar] = useState<Mascota | null>(null);
-  const [loading, setLoading] = useState(false);
 
+  const cargarMascotas = useCallback(async () => {
+    if (!idCliente) return;
+    const data = await mascotaService.getByCliente(idCliente);
+    setMascotas(data);
+  }, [idCliente]);
+
+  // Catálogos — cargan siempre, no dependen de idCliente
   useEffect(() => {
-    async function cargarMascotas() {
-      try {
-        // 🔧 CAMBIA ESTA RUTA por tu endpoint real
-        const data = await api.get<Mascota[]>("/mascotas");
-        setMascotas(data);
-      } catch {
-        setMascotas(MASCOTAS_MOCK);
-      }
-    }
-
-    cargarMascotas();
+    catalogoService.getTiposMascota()
+      .then(tipos => setTiposMascota(tipos.map(t => ({ ...t, id: Number(t.id) }))))
+      .catch(() => {});
   }, []);
+
+  // Mascotas — solo cuando hay cliente
+  useEffect(() => {
+    if (!idCliente) { setLoadingPage(false); return; }
+    mascotaService.getByCliente(idCliente)
+      .then(setMascotas)
+      .catch(() => {})
+      .finally(() => setLoadingPage(false));
+  }, [idCliente]);
 
   const handleVerDetalles = (mascota: Mascota) => {
     setMascotaSeleccionada(mascota);
@@ -72,67 +67,68 @@ function MascotasPage() {
   };
 
   const handleRegistrarMascota = async (formData: MascotaFormData) => {
+    if (!idCliente) return;
     setLoading(true);
+    setError(null);
     try {
-      // 🔧 CAMBIA ESTA RUTA por tu endpoint real
-      const nuevaMascota = await api.post<Mascota>("/mascotas", {
-        nombmas: formData.nombmas,
-        tipomas: formData.tipomas,
-        apodos: formData.apodos,
-        alergias: formData.alergias,
-        idcliente: 1 // Por ahora hardcodeado, luego vendrá del usuario logueado
+      const result = await mascotaService.registrar({
+        ...formData,
+        idCliente,
       });
-      
-      // Agregar la nueva mascota a la lista
-      setMascotas(prev => [...prev, nuevaMascota]);
-      
-      // Cerrar modal
+
+      if (result === null) {
+        setError("No se pudo registrar la mascota. Verifique que el tipo de mascota sea válido.");
+        return;
+      }
+
+      await cargarMascotas();
       setModalRegistroOpen(false);
-      
-      console.log("Mascota registrada exitosamente:", nuevaMascota);
-    } catch (error) {
-      console.error("Error al registrar mascota:", error);
+    } catch (e) {
+      setError(e instanceof Error ? e.message : "Error al registrar mascota");
     } finally {
       setLoading(false);
     }
   };
 
-  const handleActualizarMascota = async (formData: MascotaEditFormData) => {
-    if (!mascotaParaEditar) return;
-    
+  const handleActualizarMascota = async (formData: MascotaFormData) => {
+    if (!mascotaParaEditar || !idCliente) return;
     setLoading(true);
+    setError(null);
     try {
-      // 🔧 CAMBIA ESTA RUTA por tu endpoint real
-      const mascotaActualizada = await api.put<Mascota>(`/mascotas/${mascotaParaEditar.id}`, formData);
-      
-      // Actualizar la mascota en la lista
-      setMascotas(prev => prev.map(m => m.id === mascotaParaEditar.id ? mascotaActualizada : m));
-      
-      // Cerrar modal
+      await mascotaService.update(mascotaParaEditar.id, {
+        nombMas: formData.nombMas,
+        idTipoMascota: formData.idTipoMascota,
+        idCliente,
+        apodos: formData.apodos || undefined,
+        alergias: formData.alergias || undefined,
+      });
+      await cargarMascotas();
       setModalEditarOpen(false);
       setMascotaParaEditar(null);
-      
-      console.log("Mascota actualizada exitosamente:", mascotaActualizada);
-    } catch (error) {
-      console.error("Error al actualizar mascota:", error);
+    } catch (e) {
+      setError(e instanceof Error ? e.message : "Error al actualizar mascota");
     } finally {
       setLoading(false);
     }
   };
 
-  const cerrarModalDetalles = () => {
-    setModalDetallesOpen(false);
-    setMascotaSeleccionada(null);
+  const handleEliminarMascota = async (mascota: Mascota) => {
+    if (!idCliente) return;
+    setLoading(true);
+    setError(null);
+    try {
+      await mascotaService.delete(mascota.id, idCliente);
+      await cargarMascotas();
+    } catch (e) {
+      setError(e instanceof Error ? e.message : "Error al eliminar mascota");
+    } finally {
+      setLoading(false);
+    }
   };
 
-  const cerrarModalRegistro = () => {
-    setModalRegistroOpen(false);
-  };
-
-  const cerrarModalEditar = () => {
-    setModalEditarOpen(false);
-    setMascotaParaEditar(null);
-  };
+  if (loadingPage) {
+    return <LoadingOverlay message="Cargando mascotas..." fullScreen />;
+  }
 
   return (
     <div className="w-full px-2 sm:px-4 lg:px-6">
@@ -141,7 +137,7 @@ function MascotasPage() {
           Mis Mascotas
         </h1>
 
-        <Button 
+        <Button
           onClick={() => setModalRegistroOpen(true)}
           className="bg-[#079f92] hover:bg-[#078c80] text-white rounded-xl px-4 sm:px-6 py-2.5 sm:py-3 text-sm sm:text-base font-bold shadow-sm w-full sm:w-auto"
         >
@@ -150,100 +146,102 @@ function MascotasPage() {
         </Button>
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 2xl:grid-cols-4 gap-3 sm:gap-4 lg:gap-5">
-        {mascotas.map((mascota, index) => (
-          <div
-            key={mascota.id ?? index}
-            className="bg-white rounded-xl border border-gray-200 shadow-sm p-4 sm:p-5 hover:shadow-lg hover:border-[#079f92]/30 transition-all duration-200"
-          >
-            {/* Header con icono */}
-            <div className="flex items-start justify-between mb-3">
-              <MascotaIcon />
-              {/* Badge de tipo de mascota */}
-              <span className="px-2 py-1 bg-[#079f92] text-white rounded-full text-xs font-bold">
-                {obtenerTipoMascota(mascota)}
-              </span>
-            </div>
+      {error && <ErrorMessage message={error} className="mb-4" />}
 
-            {/* Información básica */}
-            <div className="mb-4">
-              <h3 className="text-lg font-bold text-gray-800 mb-1 truncate">
-                {obtenerNombreMascota(mascota)}
-              </h3>
-              {mascota.apodos && (
-                <p className="text-sm text-gray-500 mb-2 truncate">
-                  "{mascota.apodos}"
-                </p>
+      {mascotas.length === 0 && !error ? (
+        <EmptyState
+          title="Sin mascotas registradas"
+          description="Registra tu primera mascota para comenzar."
+          action={
+            <Button
+              onClick={() => setModalRegistroOpen(true)}
+              className="bg-[#079f92] hover:bg-[#078c80] text-white rounded-lg px-4 py-2 text-sm font-bold"
+            >
+              Registrar Mascota
+            </Button>
+          }
+        />
+      ) : (
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-3 sm:gap-4 lg:gap-5">
+          {mascotas.map((mascota) => (
+            <div
+              key={mascota.id}
+              className="bg-white rounded-xl border border-gray-200 shadow-sm p-4 sm:p-5 hover:shadow-lg hover:border-[#079f92]/30 transition-all duration-200"
+            >
+              {/* Header con icono */}
+              <div className="flex items-start justify-between mb-3">
+                <MascotaIcon />
+                <span className="px-2 py-1 bg-[#079f92] text-white rounded-full text-xs font-bold">
+                  {mascota.nombreTipo || "Sin tipo"}
+                </span>
+              </div>
+
+              {/* Información básica */}
+              <div className="mb-4">
+                <h3 className="text-lg font-bold text-gray-800 mb-1 truncate">
+                  {mascota.nombMas || "Sin nombre"}
+                </h3>
+                {mascota.apodos && (
+                  <p className="text-sm text-gray-500 mb-2 truncate">
+                    "{mascota.apodos}"
+                  </p>
+                )}
+              </div>
+
+              {/* Indicador de alergias */}
+              {mascota.alergias ? (
+                <div className="mb-4">
+                  <div className="flex items-center gap-2 p-2 bg-red-50 border border-red-200 rounded-lg">
+                    <Heart className="size-4 text-red-500" />
+                    <span className="text-xs text-red-700 font-medium">
+                      Tiene condiciones médicas
+                    </span>
+                  </div>
+                </div>
+              ) : (
+                <div className="mb-4">
+                  <div className="flex items-center gap-2 p-2 bg-green-50 border border-green-200 rounded-lg">
+                    <Heart className="size-4 text-green-500" />
+                    <span className="text-xs text-green-700 font-medium">
+                      Sin alergias conocidas
+                    </span>
+                  </div>
+                </div>
               )}
-            </div>
 
-            {/* Información del dueño */}
-            <div className="mb-4">
-              <div className="flex items-center gap-2 mb-2">
-                <User className="size-4 text-[#079f92]" />
-                <span className="text-sm font-bold text-gray-700">Dueño</span>
+              {/* Botones */}
+              <div className="flex gap-2">
+                <Button
+                  onClick={() => handleVerDetalles(mascota)}
+                  className="flex-1 bg-[#f0644f] hover:bg-[#e55a47] text-white py-2 text-sm font-bold rounded-lg transition-colors"
+                >
+                  <Eye className="size-4 mr-1" />
+                  Ver Detalles
+                </Button>
+
+                <Button
+                  onClick={() => handleEditarMascota(mascota)}
+                  className="flex-1 bg-orange-500 hover:bg-orange-600 text-white py-2 text-sm font-bold rounded-lg transition-colors"
+                >
+                  Editar
+                </Button>
               </div>
-              <p className="text-sm text-gray-800 font-medium truncate">
-                {obtenerNombreDueño(mascota)}
-              </p>
             </div>
-
-            {/* Indicador de alergias */}
-            {mascota.alergias && (
-              <div className="mb-4">
-                <div className="flex items-center gap-2 p-2 bg-red-50 border border-red-200 rounded-lg">
-                  <Heart className="size-4 text-red-500" />
-                  <span className="text-xs text-red-700 font-medium">
-                    Tiene condiciones médicas
-                  </span>
-                </div>
-              </div>
-            )}
-
-            {/* Estado saludable */}
-            {!mascota.alergias && (
-              <div className="mb-4">
-                <div className="flex items-center gap-2 p-2 bg-green-50 border border-green-200 rounded-lg">
-                  <Heart className="size-4 text-green-500" />
-                  <span className="text-xs text-green-700 font-medium">
-                    Sin alergias conocidas
-                  </span>
-                </div>
-              </div>
-            )}
-
-            {/* Botones */}
-            <div className="flex gap-2">
-              <Button
-                onClick={() => handleVerDetalles(mascota)}
-                className="flex-1 bg-[#f0644f] hover:bg-[#e55a47] text-white py-2 text-sm font-bold rounded-lg transition-colors"
-              >
-                <Eye className="size-4 mr-1" />
-                Ver Detalles
-              </Button>
-              
-              <Button
-                onClick={() => handleEditarMascota(mascota)}
-                className="flex-1 bg-orange-500 hover:bg-orange-600 text-white py-2 text-sm font-bold rounded-lg transition-colors"
-              >
-                Editar
-              </Button>
-            </div>
-          </div>
-        ))}
-      </div>
+          ))}
+        </div>
+      )}
 
       {/* Modal de detalles */}
       {mascotaSeleccionada && (
         <Modal
           isOpen={modalDetallesOpen}
-          onClose={cerrarModalDetalles}
-          title={`Detalles de ${mascotaSeleccionada.nombmas}`}
+          onClose={() => { setModalDetallesOpen(false); setMascotaSeleccionada(null); }}
+          title={`Detalles de ${mascotaSeleccionada.nombMas}`}
           size="lg"
         >
           <MascotaDetalles
-            mascota={mascotaSeleccionada}
-            onClose={cerrarModalDetalles}
+            mascota={mascotaSeleccionada as any}
+            onClose={() => { setModalDetallesOpen(false); setMascotaSeleccionada(null); }}
           />
         </Modal>
       )}
@@ -252,14 +250,15 @@ function MascotasPage() {
       {mascotaParaEditar && (
         <Modal
           isOpen={modalEditarOpen}
-          onClose={cerrarModalEditar}
-          title={`Editar Mascota: ${mascotaParaEditar.nombmas}`}
+          onClose={() => { setModalEditarOpen(false); setMascotaParaEditar(null); }}
+          title={`Editar Mascota: ${mascotaParaEditar.nombMas}`}
           size="lg"
         >
           <EditarMascotaForm
-            mascota={mascotaParaEditar as MascotaParaEditar}
+            mascota={mascotaParaEditar}
+            tiposMascota={tiposMascota}
             onSubmit={handleActualizarMascota}
-            onCancel={cerrarModalEditar}
+            onCancel={() => { setModalEditarOpen(false); setMascotaParaEditar(null); }}
             loading={loading}
           />
         </Modal>
@@ -268,13 +267,14 @@ function MascotasPage() {
       {/* Modal de registro */}
       <Modal
         isOpen={modalRegistroOpen}
-        onClose={cerrarModalRegistro}
+        onClose={() => setModalRegistroOpen(false)}
         title="Registrar Nueva Mascota"
         size="lg"
       >
         <RegistrarMascotaForm
+          tiposMascota={tiposMascota}
           onSubmit={handleRegistrarMascota}
-          onCancel={cerrarModalRegistro}
+          onCancel={() => setModalRegistroOpen(false)}
           loading={loading}
         />
       </Modal>
